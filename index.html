@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fair Hills of Ocean, Oh!: A Study Guide</title>
+<style>
+/* ═══════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES
+   ═══════════════════════════════════════════════════════ */
+:root {
+    --font-display: 'EB Garamond', 'Garamond', 'Georgia', serif;
+    --font-body: 'Georgia', 'Times New Roman', serif;
+    --font-ui: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Consolas', 'Monaco', monospace;
+
+    --color-ocean-deep: #0d2137;
+    --color-ocean-mid: #1a3a5c;
+    --color-ocean-light: #2d5f8a;
+    --color-sea-foam: #6fa8b8;
+    --color-kelp: #3a6b52;
+    --color-kelp-light: #5a8a6a;
+    --color-sand: #c9b99a;
+    --color-sand-light: #e8dcc8;
+    --color-parchment: #f7f5f2;
+    --color-bone: #fafafa;
+    --color-ink: #1a1a1a;
+    --color-ink-faded: #5a5a5a;
+    --color-ink-light: #8a8a8a;
+    --color-rust: #8b4513;
+    --color-gold: #b8860b;
+    --color-gold-light: #d4a855;
+    --color-coral: #c75c3a;
+    --color-teal: #1a7a7a;
+    --color-teal-light: #2a9a9a;
+
+    --space-xs: 0.35rem;
+    --space-sm: 0.65rem;
+    --space-md: 1.1rem;
+    --space-lg: 1.8rem;
+    --space-xl: 2.8rem;
+
+    --sidebar-w: 260px;
+    --header-h: 52px;
+    --radius: 4px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 2px 6px rgba(0,0,0,0.08);
+    --transition: 0.2s ease;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background: var(--color-bone);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════════════════ */
+.app-container { display: flex; flex-direction: column; min-height: 100vh; }
+
+.header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--header-h);
+    background: var(--color-ocean-deep);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--space-md);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15); border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.header-brand { display: flex; align-items: center; gap: var(--space-sm); }
+.header-brand h1 {
+    font-family: var(--font-display);
+    font-size: 1.15rem; font-weight: 400; color: var(--color-sand-light);
+    letter-spacing: 0.02em;
+}
+.header-brand h1 em { font-style: italic; }
+
+.menu-toggle {
+    display: none; background: none; border: none;
+    color: var(--color-sand-light); font-size: 1.3rem; cursor: pointer;
+    padding: var(--space-xs);
+}
+
+.search-container { position: relative; }
+.search-input {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius);
+    color: var(--color-sand-light);
+    font-family: var(--font-ui); font-size: 0.8rem;
+    padding: 0.35rem 0.6rem 0.35rem 1.8rem;
+    width: 200px; transition: var(--transition);
+}
+.search-input::placeholder { color: rgba(255,255,255,0.4); }
+.search-input:focus { outline: none; border-color: var(--color-sea-foam); background: rgba(255,255,255,0.15); width: 260px; }
+.search-icon { position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); opacity: 0.5; }
+
+.main-layout {
+    display: flex; flex: 1;
+}
+
+.hero-banner {
+    margin-top: var(--header-h);
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+    background: var(--color-ocean-deep);
+}
+.hero-banner img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 30%;
+    opacity: 0.55;
+}
+.hero-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: var(--space-md);
+}
+.hero-title {
+    font-family: var(--font-display);
+    font-size: 2.6rem; font-weight: 400;
+    color: white; font-style: italic;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.4), 0 0 40px rgba(0,0,0,0.15);
+    letter-spacing: 0.03em;
+    line-height: 1.15;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SIDEBAR
+   ═══════════════════════════════════════════════════════ */
+/* ── Sidebar: Nautical Theme ── */
+.sidebar {
+    position: fixed; top: var(--header-h); left: 0; bottom: 0;
+    width: var(--sidebar-w);
+    background:
+        linear-gradient(180deg, var(--color-ocean-deep) 0%, #0a1a2e 100%);
+    overflow-y: auto; padding: var(--space-sm) 0 var(--space-lg) 0;
+    border-right: 3px solid transparent;
+    border-image: repeating-linear-gradient(
+        180deg,
+        rgba(201,185,154,0.35) 0px, rgba(201,185,154,0.35) 6px,
+        transparent 6px, transparent 10px,
+        rgba(201,185,154,0.2) 10px, rgba(201,185,154,0.2) 16px,
+        transparent 16px, transparent 20px
+    ) 3;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ocean-mid) transparent;
+}
+
+/* Compass rose at top of sidebar */
+.sidebar-compass {
+    display: flex; justify-content: center; padding: 1rem 0 0.5rem;
+}
+.sidebar-compass svg { opacity: 0.4; transition: opacity 0.4s; }
+.sidebar:hover .sidebar-compass svg { opacity: 0.6; }
+
+/* Wave dividers between nav sections */
+.nav-wave-divider {
+    display: block; height: 12px; margin: 0.2rem 1rem;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M0 6 Q10 2 20 6 Q30 10 40 6 Q50 2 60 6 Q70 10 80 6 Q90 2 100 6 Q110 10 120 6' stroke='rgba(111,168,184,0.25)' stroke-width='1' fill='none'/%3E%3C/svg%3E") repeat-x center;
+    background-size: 120px 12px;
+}
+
+/* Anchor icon for active section */
+.nav-section-title::before {
+    content: '';
+    display: inline-block;
+    width: 12px; height: 12px;
+    margin-right: 0.45rem;
+    flex-shrink: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(111,168,184,0.3)' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='5' r='3'/%3E%3Cline x1='12' y1='8' x2='12' y2='21'/%3E%3Cpath d='M4 15c0 4.418 3.582 6 8 6s8-1.582 8-6'/%3E%3Cline x1='9' y1='18' x2='3' y2='15'/%3E%3Cline x1='15' y1='18' x2='21' y2='15'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+    opacity: 0; transition: opacity 0.25s;
+}
+.nav-section-title.active::before {
+    opacity: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(111,168,184,0.7)' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='5' r='3'/%3E%3Cline x1='12' y1='8' x2='12' y2='21'/%3E%3Cpath d='M4 15c0 4.418 3.582 6 8 6s8-1.582 8-6'/%3E%3Cline x1='9' y1='18' x2='3' y2='15'/%3E%3Cline x1='15' y1='18' x2='21' y2='15'/%3E%3C/svg%3E");
+}
+
+/* Rope-knot bullet for subsections */
+.nav-subsection::before {
+    content: '⚓';
+    font-size: 0.5rem;
+    margin-right: 0.4rem;
+    opacity: 0.3;
+    vertical-align: middle;
+}
+.nav-subsection.active::before { opacity: 0.7; }
+
+.sidebar-nav { list-style: none; }
+.nav-section-title {
+    display: flex; align-items: center;
+    padding: 0.6rem var(--space-md) 0.6rem 0.8rem;
+    font-family: var(--font-display); font-size: 0.82rem;
+    font-weight: 500; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer; transition: var(--transition);
+    border-left: 2px solid transparent;
+    user-select: none;
+}
+.nav-section-title span { flex: 1; }
+.nav-section-title:hover {
+    color: rgba(255,255,255,0.95);
+    background: rgba(111,168,184,0.06);
+    border-left-color: rgba(111,168,184,0.2);
+}
+.nav-section-title.active {
+    color: var(--color-sand-light);
+    border-left-color: var(--color-sea-foam);
+    background: rgba(111,168,184,0.08);
+}
+.section-number { color: var(--color-sea-foam); margin-right: 0.3em; font-size: 0.78rem; }
+.nav-toggle { font-size: 0.55rem; transition: transform 0.2s; }
+.nav-section.expanded .nav-toggle { transform: rotate(90deg); }
+.nav-subsections {
+    list-style: none; max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-left: 1px dotted rgba(111,168,184,0.15);
+    margin-left: 1.3rem;
+}
+.nav-section.expanded .nav-subsections { max-height: 600px; }
+.nav-subsection {
+    padding: 0.3rem var(--space-md) 0.3rem 0.5rem;
+    font-size: 0.78rem; color: rgba(255,255,255,0.65);
+    cursor: pointer; transition: var(--transition);
+}
+.nav-subsection:hover { color: rgba(255,255,255,0.9); }
+.nav-subsection.active { color: var(--color-sea-foam); }
+
+/* Bottom anchor decoration */
+.sidebar-bottom-deco {
+    text-align: center;
+    padding: 1.2rem 0 0.5rem;
+    opacity: 0.2;
+    font-size: 1.4rem;
+    color: var(--color-sand);
+    letter-spacing: 0.5em;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════ */
+.content {
+    margin-left: var(--sidebar-w);
+    padding: var(--space-xl) 2.5rem;
+    max-width: 820px;
+    flex: 1;
+}
+.content-section { display: none; }
+.content-section.active { display: block; }
+
+.content-section h2 {
+    font-family: var(--font-display);
+    font-size: 1.55rem; font-weight: 400;
+    color: var(--color-ocean-deep);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid #e0dcd6;
+    letter-spacing: 0.01em;
+}
+.content-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem; font-weight: 400;
+    color: var(--color-ocean-mid);
+    margin: var(--space-lg) 0 var(--space-sm) 0;
+}
+.content-section p {
+    margin-bottom: var(--space-md);
+    font-size: 0.95rem; line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CHAPTER CARDS
+   ═══════════════════════════════════════════════════════ */
+.chapter-grid { display: flex; flex-direction: column; gap: var(--space-md); }
+.chapter-card {
+    background: white;
+    border: 1px solid var(--color-sand);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+.chapter-card:hover { box-shadow: var(--shadow-md); }
+.chapter-header {
+    display: flex; align-items: center; gap: var(--space-md);
+    padding: 0.85rem var(--space-md);
+    cursor: pointer; user-select: none;
+    background: #f9f8f6;
+    border-bottom: 1px solid #eae6df;
+}
+.chapter-number {
+    font-family: var(--font-display);
+    font-size: 0.85rem; color: var(--color-ocean-light);
+    min-width: 1.5rem; text-align: center;
+    letter-spacing: 0.06em;
+}
+.chapter-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem; color: var(--color-ocean-deep);
+    font-style: italic; flex: 1;
+}
+.chapter-toggle { font-size: 0.65rem; color: var(--color-ink-light); transition: transform 0.2s; }
+.chapter-card.expanded .chapter-toggle { transform: rotate(90deg); }
+.chapter-body {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+}
+.chapter-card.expanded .chapter-body { max-height: none; }
+.chapter-content {
+    padding: var(--space-md);
+    font-size: 0.9rem; line-height: 1.65;
+}
+.chapter-content p { margin-bottom: var(--space-sm); }
+.chapter-content .port-catalog {
+    font-size: 0.82rem; color: var(--color-ink-faded);
+    font-style: italic; margin: var(--space-sm) 0;
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--color-sand);
+}
+.chapter-tag {
+    display: inline-block; font-family: var(--font-ui);
+    font-size: 0.67rem; padding: 0.15rem 0.5rem;
+    background: #f5f3f0; border: 1px solid #e5e0d8;
+    border-radius: 2px; color: var(--color-ink-faded);
+    margin: 0 0.25rem 0.3rem 0; letter-spacing: 0.02em;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CHARACTER CARDS
+   ═══════════════════════════════════════════════════════ */
+.filter-bar {
+    display: flex; flex-wrap: wrap; gap: var(--space-xs);
+    margin-bottom: var(--space-lg);
+}
+.filter-btn {
+    font-family: var(--font-ui); font-size: 0.75rem;
+    padding: 0.3rem 0.7rem; border-radius: var(--radius);
+    border: 1px solid var(--color-sand);
+    background: white; color: var(--color-ink-faded);
+    cursor: pointer; transition: var(--transition);
+}
+.filter-btn:hover { border-color: var(--color-ocean-light); color: var(--color-ocean-light); }
+.filter-btn.active {
+    background: var(--color-ocean-deep); color: white;
+    border-color: var(--color-ocean-deep);
+}
+.character-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
+.char-card {
+    background: white; border: 1px solid var(--color-sand);
+    border-radius: var(--radius); padding: var(--space-md);
+    box-shadow: var(--shadow-sm); transition: var(--transition);
+    border-left: 2px solid var(--color-ocean-light);
+}
+.char-card[data-faction="domdaniel"] { border-left-color: var(--color-coral); }
+.char-card[data-faction="ocean"] { border-left-color: var(--color-teal); }
+.char-card[data-faction="other"] { border-left-color: var(--color-gold); }
+.char-card.hidden { display: none; }
+.char-name {
+    font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--color-ocean-deep); margin-bottom: var(--space-xs);
+}
+.char-role {
+    font-family: var(--font-ui); font-size: 0.72rem;
+    color: var(--color-ink-light); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: var(--space-sm);
+}
+.char-desc { font-size: 0.88rem; line-height: 1.6; margin-bottom: var(--space-sm); }
+.char-quote {
+    font-style: italic; font-size: 0.85rem;
+    color: var(--color-ink-faded); padding-left: var(--space-md);
+    border-left: 2px solid var(--color-sand);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOSSARY
+   ═══════════════════════════════════════════════════════ */
+.glossary-alpha-nav {
+    display: flex; flex-wrap: wrap; gap: 0.2rem;
+    margin-bottom: var(--space-md); padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-sand);
+}
+.alpha-btn {
+    font-family: var(--font-ui); font-size: 0.75rem;
+    width: 1.6rem; height: 1.6rem;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--color-sand); border-radius: 2px;
+    background: white; color: var(--color-ink-faded);
+    cursor: pointer; transition: var(--transition);
+}
+.alpha-btn:hover { border-color: var(--color-ocean-light); color: var(--color-ocean-light); }
+.alpha-btn.active { background: var(--color-ocean-deep); color: white; border-color: var(--color-ocean-deep); }
+.alpha-btn.disabled { opacity: 0.3; pointer-events: none; }
+
+.glossary-search {
+    width: 100%; padding: 0.5rem 0.8rem;
+    border: 1px solid var(--color-sand); border-radius: var(--radius);
+    font-family: var(--font-ui); font-size: 0.85rem;
+    margin-bottom: var(--space-md);
+}
+.glossary-search:focus { outline: none; border-color: var(--color-ocean-light); }
+
+.ug-entry {
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid #f0ece6;
+}
+.ug-entry.hidden { display: none; }
+.ug-headword {
+    font-family: var(--font-display); font-size: 1rem;
+    color: var(--color-ocean-deep); font-weight: 600;
+}
+.ug-lang {
+    font-family: var(--font-ui); font-size: 0.68rem;
+    color: var(--color-ink-light); margin-left: 0.4rem;
+    text-transform: uppercase; letter-spacing: 0.05em;
+}
+.ug-context {
+    font-size: 0.88rem; line-height: 1.6;
+    color: var(--color-ink); margin-top: var(--space-xs);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOSSARY POPUPS (inline throughout text)
+   ═══════════════════════════════════════════════════════ */
+.glossary-term {
+    border-bottom: 1px dotted var(--color-ocean-light);
+    cursor: help; position: relative;
+}
+.glossary-popup {
+    display: none; position: absolute; bottom: 100%; left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-ocean-deep); color: var(--color-sand-light);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius);
+    font-size: 0.82rem; line-height: 1.5;
+    width: 280px; z-index: 50;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    pointer-events: none;
+}
+.glossary-term:hover .glossary-popup,
+.glossary-term:focus .glossary-popup { display: block; }
+.popup-term { font-weight: 600; display: block; margin-bottom: 0.2rem; color: var(--color-sea-foam); }
+.popup-definition { display: block; }
+
+/* ═══════════════════════════════════════════════════════
+   THEME CARDS
+   ═══════════════════════════════════════════════════════ */
+.theme-card {
+    background: white; border: 1px solid #e8e4de;
+    border-radius: var(--radius); padding: 1.2rem var(--space-md);
+    margin-bottom: var(--space-md); box-shadow: var(--shadow-sm);
+}
+.theme-card h4 {
+    font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--color-ocean-deep); margin-bottom: var(--space-sm);
+}
+.theme-card p { font-size: 0.9rem; line-height: 1.65; margin-bottom: var(--space-sm); }
+.theme-card p:last-child { margin-bottom: 0; }
+
+#section-texts {
+    background: white;
+    margin: 0 calc(-1 * var(--space-lg));
+    padding: var(--space-lg);
+    border-radius: var(--radius);
+    box-shadow: inset 0 0 0 1px #eae6df;
+}
+#section-texts .theme-card {
+    border-color: #eee;
+    box-shadow: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BLOCKQUOTES
+   ═══════════════════════════════════════════════════════ */
+blockquote {
+    border-left: 2px solid var(--color-ocean-light);
+    padding: var(--space-sm) var(--space-md);
+    margin: var(--space-sm) 0;
+    background: rgba(45,95,138,0.03);
+    font-style: italic; font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--color-ink-faded);
+}
+blockquote cite {
+    display: block; font-style: normal;
+    font-size: 0.8rem; margin-top: var(--space-xs);
+    color: var(--color-ink-light);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TIMELINE
+   ═══════════════════════════════════════════════════════ */
+.timeline-header {
+    font-family: var(--font-display); font-size: 1.1rem;
+    color: var(--color-ocean-deep); margin: var(--space-lg) 0 var(--space-sm) 0;
+    padding-bottom: var(--space-xs);
+    border-bottom: 2px solid var(--color-ocean-light);
+}
+.timeline-track {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: var(--space-md);
+}
+.timeline-track::before {
+    content: '';
+    position: absolute; left: 8px; top: 0; bottom: 0;
+    width: 2px; background: var(--color-sand);
+}
+.tl-event {
+    position: relative;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+}
+.tl-event::before {
+    content: '';
+    position: absolute; left: -24px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--color-sand);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--color-sand);
+}
+.tl-event.firm::before {
+    background: var(--color-ocean-light);
+    box-shadow: 0 0 0 2px var(--color-ocean-light);
+}
+.tl-time {
+    font-family: var(--font-ui); font-size: 0.75rem;
+    color: var(--color-ocean-light); font-weight: 600;
+    letter-spacing: 0.04em;
+}
+.tl-time .tl-firm {
+    background: var(--color-ocean-deep); color: white;
+    padding: 0.1rem 0.35rem; border-radius: 2px;
+    font-size: 0.68rem; margin-left: 0.3rem;
+    letter-spacing: 0.06em;
+}
+.tl-chapters {
+    font-family: var(--font-ui); font-size: 0.68rem;
+    color: var(--color-ink-light); margin-top: 0.1rem;
+}
+.tl-desc {
+    font-size: 0.88rem; line-height: 1.55;
+    margin-top: var(--space-xs); color: var(--color-ink);
+}
+.tl-location {
+    display: inline-block; font-family: var(--font-ui);
+    font-size: 0.65rem; padding: 0.1rem 0.4rem;
+    border-radius: 2px; margin-right: 0.3rem;
+    margin-bottom: 0.2rem; letter-spacing: 0.04em;
+    text-transform: uppercase; font-weight: 600;
+}
+.tl-location.land { background: var(--color-sand-light); color: var(--color-rust); }
+.tl-location.ocean { background: rgba(45,95,138,0.12); color: var(--color-ocean-mid); }
+.tl-location.purgatory { background: rgba(139,69,19,0.1); color: var(--color-rust); }
+.tl-location.both { background: rgba(58,107,82,0.1); color: var(--color-kelp); }
+
+.tl-problems {
+    background: #f8f6f3; border: 1px solid #e5e0d8;
+    border-radius: var(--radius); padding: 1.2rem var(--space-md);
+    margin-top: var(--space-xl);
+}
+.tl-problems h3 {
+    font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--color-ocean-deep); margin-bottom: var(--space-sm);
+}
+.tl-problems p { font-size: 0.88rem; line-height: 1.6; margin-bottom: var(--space-sm); }
+.tl-problems p:last-child { margin-bottom: 0; }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 90;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .content { margin-left: 0; padding: var(--space-lg) var(--space-md); }
+    .search-input { width: 140px; }
+    .search-input:focus { width: 180px; }
+    .hero-banner { height: 180px; }
+    .hero-title { font-size: 1.6rem; }
+    .header-brand h1 { font-size: 0.95rem; }
+}
+
+/* Reading typography */
+blockquote, blockquote cite, .char-quote { font-style: normal; }
+.search-match { outline: 2px solid var(--color-gold, #b68d4c); outline-offset: 4px; }
+
+html { scroll-padding-top: calc(var(--header-h) + 12px); }
+.chapter-card { scroll-margin-top: calc(var(--header-h) + 12px); }
+[role="button"]:focus-visible, .glossary-term:focus-visible { outline: 2px solid var(--color-ocean-light); outline-offset: 3px; }
+.glossary-popup { max-width: calc(100vw - 24px); }
+@media (max-width: 400px) {
+  .header { padding: 0 0.65rem; gap: 0.45rem; }
+  .header-brand { min-width: 0; gap: 0.35rem; }
+  .header-brand h1 { font-size: 0.85rem; line-height: 1.25; }
+  .search-input, .search-input:focus { width: 125px; }
+}
+</style>
+</head>
+<body>
+<div class="app-container">
+<!-- ═══════════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════════ -->
+<header class="header">
+<div class="header-brand">
+<button aria-controls="guide-navigation" aria-expanded="false" aria-label="Toggle navigation" class="menu-toggle">☰</button>
+<h1><em>Fair Hills of Ocean, Oh!</em></h1>
+</div>
+<div class="search-container">
+<svg class="search-icon" fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16">
+<circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path>
+</svg>
+<input aria-label="Search the guide" class="search-input" placeholder="Search the guide…" type="text"/>
+</div>
+</header>
+<div class="hero-banner">
+<img alt="Bottle-nosed dolphin grinning underwater" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEBLAEsAAD/4QCaRXhpZgAASUkqAAgAAAAEAA4BAgAvAAAAPgAAAJiCAgAVAAAAbQAAABoBBQABAAAAggAAABsBBQABAAAAigAAAAAAAABVbmRlcndhdGVyIHZpZXcgb2YgYSBwbGF5ZnVsIGJvdHRsZW5vc2UgZG9scGhpbk5hdHVyZUxvdmVQaG90b2dyYXBoeSwBAAABAAAALAEAAAEAAAD/4QXYaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIj4KCTxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CgkJPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczpJcHRjNHhtcENvcmU9Imh0dHA6Ly9pcHRjLm9yZy9zdGQvSXB0YzR4bXBDb3JlLzEuMC94bWxucy8iICAgeG1sbnM6R2V0dHlJbWFnZXNHSUZUPSJodHRwOi8veG1wLmdldHR5aW1hZ2VzLmNvbS9naWZ0LzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGx1cz0iaHR0cDovL25zLnVzZXBsdXMub3JnL2xkZi94bXAvMS4wLyIgIHhtbG5zOmlwdGNFeHQ9Imh0dHA6Ly9pcHRjLm9yZy9zdGQvSXB0YzR4bXBFeHQvMjAwOC0wMi0yOS8iIHhtbG5zOnhtcFJpZ2h0cz0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3JpZ2h0cy8iIGRjOlJpZ2h0cz0iTmF0dXJlTG92ZVBob3RvZ3JhcGh5IiBwaG90b3Nob3A6Q3JlZGl0PSJHZXR0eSBJbWFnZXMvaVN0b2NrcGhvdG8iIEdldHR5SW1hZ2VzR0lGVDpBc3NldElEPSI1Mjk2NjMxNDgiIHhtcFJpZ2h0czpXZWJTdGF0ZW1lbnQ9Imh0dHBzOi8vd3d3LmlzdG9ja3Bob3RvLmNvbS9sZWdhbC9saWNlbnNlLWFncmVlbWVudD91dG1fbWVkaXVtPW9yZ2FuaWMmYW1wO3V0bV9zb3VyY2U9Z29vZ2xlJmFtcDt1dG1fY2FtcGFpZ249aXB0Y3VybCIgcGx1czpEYXRhTWluaW5nPSJodHRwOi8vbnMudXNlcGx1cy5vcmcvbGRmL3ZvY2FiL0RNSS1QUk9ISUJJVEVELUVYQ0VQVFNFQVJDSEVOR0lORUlOREVYSU5HIiA+CjxkYzpjcmVhdG9yPjxyZGY6U2VxPjxyZGY6bGk+TmF0dXJlTG92ZVBob3RvZ3JhcGh5PC9yZGY6bGk+PC9yZGY6U2VxPjwvZGM6Y3JlYXRvcj48ZGM6ZGVzY3JpcHRpb24+PHJkZjpBbHQ+PHJkZjpsaSB4bWw6bGFuZz0ieC1kZWZhdWx0Ij5VbmRlcndhdGVyIHZpZXcgb2YgYSBwbGF5ZnVsIGJvdHRsZW5vc2UgZG9scGhpbjwvcmRmOmxpPjwvcmRmOkFsdD48L2RjOmRlc2NyaXB0aW9uPgo8cGx1czpMaWNlbnNvcj48cmRmOlNlcT48cmRmOmxpIHJkZjpwYXJzZVR5cGU9J1Jlc291cmNlJz48cGx1czpMaWNlbnNvclVSTD5odHRwczovL3d3dy5pc3RvY2twaG90by5jb20vcGhvdG8vbGljZW5zZS1nbTUyOTY2MzE0OC0/dXRtX21lZGl1bT1vcmdhbmljJmFtcDt1dG1fc291cmNlPWdvb2dsZSZhbXA7dXRtX2NhbXBhaWduPWlwdGN1cmw8L3BsdXM6TGljZW5zb3JVUkw+PC9yZGY6bGk+PC9yZGY6U2VxPjwvcGx1czpMaWNlbnNvcj4KCQk8L3JkZjpEZXNjcmlwdGlvbj4KCTwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9InciPz4K/+0AolBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAACFHAJQABVOYXR1cmVMb3ZlUGhvdG9ncmFwaHkcAngAL1VuZGVyd2F0ZXIgdmlldyBvZiBhIHBsYXlmdWwgYm90dGxlbm9zZSBkb2xwaGluHAJ0ABVOYXR1cmVMb3ZlUGhv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"/>
+<div class="hero-overlay">
+<div class="hero-title">Fair Hills of Ocean, Oh!</div>
+</div>
+</div>
+<div class="main-layout">
+<!-- ═══════════════════════════════════════════════════
+     SIDEBAR
+     ═══════════════════════════════════════════════════ -->
+<nav aria-label="Main navigation" class="sidebar" id="guide-navigation">
+<!-- Compass Rose -->
+<div class="sidebar-compass">
+<svg fill="none" height="48" viewbox="0 0 100 100" width="48" xmlns="http://www.w3.org/2000/svg">
+<circle cx="50" cy="50" r="38" stroke="rgba(201,185,154,0.5)" stroke-width="1"></circle>
+<circle cx="50" cy="50" r="6" stroke="rgba(201,185,154,0.5)" stroke-width="1"></circle>
+<!-- N -->
+<polygon fill="rgba(111,168,184,0.7)" points="50,12 46,40 50,36 54,40"></polygon>
+<!-- S -->
+<polygon fill="rgba(201,185,154,0.35)" points="50,88 46,60 50,64 54,60"></polygon>
+<!-- E -->
+<polygon fill="rgba(201,185,154,0.35)" points="88,50 60,46 64,50 60,54"></polygon>
+<!-- W -->
+<polygon fill="rgba(201,185,154,0.35)" points="12,50 40,46 36,50 40,54"></polygon>
+<!-- NE -->
+<polygon fill="rgba(201,185,154,0.2)" points="77,23 57,43 58,38 53,42" transform="rotate(0,50,50)"></polygon>
+<!-- NW -->
+<polygon fill="rgba(201,185,154,0.2)" points="23,23 43,43 42,38 38,42"></polygon>
+<!-- SE -->
+<polygon fill="rgba(201,185,154,0.2)" points="77,77 57,57 58,62 62,58"></polygon>
+<!-- SW -->
+<polygon fill="rgba(201,185,154,0.2)" points="23,77 43,57 38,58 42,62"></polygon>
+<!-- Cardinal labels -->
+<text fill="rgba(201,185,154,0.6)" font-family="EB Garamond, Georgia, serif" font-size="7" text-anchor="middle" x="50" y="9">N</text>
+<text fill="rgba(201,185,154,0.4)" font-family="EB Garamond, Georgia, serif" font-size="7" text-anchor="middle" x="50" y="98">S</text>
+<text fill="rgba(201,185,154,0.4)" font-family="EB Garamond, Georgia, serif" font-size="7" text-anchor="middle" x="95" y="53">E</text>
+<text fill="rgba(201,185,154,0.4)" font-family="EB Garamond, Georgia, serif" font-size="7" text-anchor="middle" x="5" y="53">W</text>
+</svg>
+</div>
+<span class="nav-wave-divider"></span>
+<ul class="sidebar-nav">
+<li class="nav-section" data-section="section-introduction">
+<div class="nav-section-title active"><span>Introduction</span></div>
+</li>
+<span class="nav-wave-divider"></span>
+<li class="nav-section has-subsections" data-section="section-chapters">
+<div class="nav-section-title">
+<span>Chapters</span>
+<span class="nav-toggle">▶</span>
+</div>
+<ul class="nav-subsections">
+<li class="nav-subsection" data-subsection="ch1">1. The Green Boats Land</li>
+<li class="nav-subsection" data-subsection="ch2">2. The Double-Agent Arrives</li>
+<li class="nav-subsection" data-subsection="ch3">3. Intrigue at the “Dunes of Hell”</li>
+<li class="nav-subsection" data-subsection="ch4">4. Prisoners in Domdaniel Dungeons</li>
+<li class="nav-subsection" data-subsection="ch5">5. And Breathe New World . . .</li>
+<li class="nav-subsection" data-subsection="ch6">6. Heroic Age When We Were Young</li>
+<li class="nav-subsection" data-subsection="ch7">7. Climbing Upward Through the Sky</li>
+<li class="nav-subsection" data-subsection="ch8">8. Disguises Cannot Long Conceal</li>
+<li class="nav-subsection" data-subsection="ch9">9. Remember Me with Thorns</li>
+<li class="nav-subsection" data-subsection="ch10">10. It’s Bloody but Is It Art?</li>
+<li class="nav-subsection" data-subsection="ch11">11. The Twist and Turn of Fishy Mind</li>
+<li class="nav-subsection" data-subsection="ch12">12. Disguise Will Sit upon the Throne</li>
+<li class="nav-subsection" data-subsection="ch13">13. Interview with Ocean</li>
+<li class="nav-subsection" data-subsection="ch14">14. And for a Snipe a Throne Was Lost</li>
+<li class="nav-subsection" data-subsection="ch15">15. Dark Night of Despond</li>
+<li class="nav-subsection" data-subsection="ch16">16. Hot Ice at the Coronation</li>
+</ul>
+</li>
+<span class="nav-wave-divider"></span>
+<li class="nav-section" data-section="section-characters">
+<div class="nav-section-title"><span>Characters</span></div>
+</li>
+<span class="nav-wave-divider"></span>
+<li class="nav-section" data-section="section-allusions">
+<div class="nav-section-title"><span>Allusions &amp; References</span></div>
+</li>
+<span class="nav-wave-divider"></span>
+<li class="nav-section" data-section="section-themes">
+<div class="nav-section-title"><span>Themes</span></div>
+</li>
+<span class="nav-wave-divider"></span>
+<li class="nav-section" data-section="section-texts">
+<div class="nav-section-title"><span>Embedded Texts</span></div>
+</li>
+<span class="nav-wave-divider"></span>
+<li class="nav-section" data-section="section-timeline">
+<div class="nav-section-title"><span>Timeline</span></div>
+</li>
+<span class="nav-wave-divider"></span>
+<li class="nav-section" data-section="section-glossary">
+<div class="nav-section-title"><span>Glossary</span></div>
+</li>
+</ul>
+<div class="sidebar-bottom-deco">⚓</div>
+</nav>
+<!-- ═══════════════════════════════════════════════════
+     MAIN CONTENT
+     ═══════════════════════════════════════════════════ -->
+<main class="content">
+<!-- ──────────────────────────────────────────────────
+     INTRODUCTION
+     ────────────────────────────────────────────────── -->
+<section class="content-section active" id="section-introduction">
+<h2>Introduction</h2>
+<p><em>Fair Hills of Ocean, Oh!</em> recounts the arrival of the <span aria-describedby="definition-1" class="glossary-term" tabindex="0">Boat People<span class="glossary-popup" id="definition-1" role="tooltip"><span class="popup-term">Boat People</span><span class="popup-definition">Approximately fifty million burlap-skinned, carrot-haired people who arrive simultaneously at every port city in the world aboard flimsy green boats. They carry no firearms, only daggers, bolos, and pikes, yet they take over three-quarters of the world’s port cities within thirty minutes.</span></span></span> at every port in the world, the intrigues of the Matamoros Chapter of the <span aria-describedby="definition-2" class="glossary-term" tabindex="0">Informal Committee<span class="glossary-popup" id="definition-2" role="tooltip"><span class="popup-term">Informal Committee for Advising Directors of Corporations and Nations</span><span class="popup-definition">A worldwide network of roughly one hundred chapters, loosely linked, whose motto is “Save the World first of All.” The Matamoros Chapter has thirteen members and is the novel’s central human organization.</span></span></span>, and a dolphin secret agent’s entanglement with the emperor of <span aria-describedby="definition-3" class="glossary-term" tabindex="0">Domdaniel<span class="glossary-popup" id="definition-3" role="tooltip"><span class="popup-term">Domdaniel</span><span class="popup-definition">The oceanic fortress-palace of the emperor of the World. Surrounded by Nine Iron Walls, it contains the throne room, the “Masterpieces of Death” gallery, the Jewelry Whale, and the notion mill. Located in the middle of the Ocean.</span></span></span>.</p>
+<p>The title alludes to a poem of longing for Ireland, James Clarence Mangan’s “The Fair Hills of Eire, O!” Lafferty’s title transfers that longing from Ireland to the Ocean.</p>
+<p>The novel has sixteen chapters, organized around two geographic poles: the Dunes of Hell resort near Matamoros, Mexico, and the Domdaniel fortress in the Atlantic Ocean. Between these poles, the action moves through the world’s port cities, the ocean depths, and the invisible cliffs above the sea surface.</p>
+</section>
+<!-- ──────────────────────────────────────────────────
+     CHAPTERS
+     ────────────────────────────────────────────────── -->
+<section class="content-section" id="section-chapters">
+<h2>Chapters</h2>
+<div class="chapter-grid">
+<div class="chapter-card" id="ch1">
+<div class="chapter-header">
+<span class="chapter-number">I</span>
+<span class="chapter-title">The Green Boats Land</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>The novel opens with an invocation of “a great and deep oceanic mind behind all this” and a teasing reference to “the Foremost Secret.” The Boat People then appear simultaneously at every port in the world. Seven alphabetical port-city catalogs, from Aalborg to Cuxhaven, alternate with descriptions of the invaders and encounters with them.</p>
+<p class="port-catalog">Aalborg–Amapala . . . Amoy–Bangor . . . Barcelona–Blythe . . . Bombay–Calcutta . . . Callao–Cebu . . . Champerico–Chittagong . . . Churchill–Cuxhaven</p>
+<p><strong>Amapala:</strong> A gray-bearded water-walker announces they come “from the ocean” and explains the duty rotation: “only a few of us walk on the water, those of us who are required to serve a term of duty as water-walkers and wise men who know all the languages.” <strong>Bankok:</strong> A red-bearded man arrives on cockle-shell skis; the locals laugh; he warns that the last people who laughed were killed and stripped to skeletons: “and their skeletons still laughed at us.” <strong>Blyth:</strong> Citizens offer humanitarian aid; the Boat People reply “We do not come as refugees. We come as conquerors and occupiers!” A big-voiced man is catapulted ashore and demands a shore inspection. <strong>Calcutta:</strong> The Boat People kill and impale local people to get noticed, and the narrator reports the killings in a deadpan tone. <strong>Cebu:</strong> Nighttime arrival; the Boat People glow with one candle-power of light. They demand control of banks, newspapers, fishing, and government. <strong>Cuxhaven:</strong> Even the Fifth Reich’s “Lightning and Iron” military defenses crumble before the Boat People’s “corporate aura.”</p>
+<p>The chapter estimates about 100,000 Boat People at each of roughly five hundred ports, or about fifty million in all. The Boat People have burlap-colored skin, carrot-orange hair, and a “Viking motif” that resembles the popular image of Vikings. One-tenth talk; the rest take turns. They carry daggers, bolos, and pikes. They took over three-quarters of the ports in thirty minutes, “almost bloodlessly,” by inducing fear. Their proposition: let us control your military and civil forces, deliver your brass to us “bound and with their thumbs broken” so we can play cards with them.</p>
+<div><span class="chapter-tag">Port-city catalogs</span><span class="chapter-tag">Boat People arrival</span><span class="chapter-tag">Water-walking</span><span class="chapter-tag">Cockle shells</span><span class="chapter-tag">Lightning and Iron</span><span class="chapter-tag">Fifth Reich</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch2">
+<div class="chapter-header">
+<span class="chapter-number">II</span>
+<span class="chapter-title">The Double-Agent Arrives</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>The Informal Committee for Advising Directors of Corporations and Nations has about a hundred loosely linked chapters in thirty countries. Its motto begins “Save the World first of All.” The Matamoros Chapter draws its thirteen members from nine countries and “the Jolly Rogers Floating Realm of Practicing Pirates.” Its members are Emmet Briny, Margret Kirkestol, Giobbe (Job) Balena, Nero Altomare, Denis Gouffre, Carol Meduna, Jorge Meduna, Esther Scarlet, Oscar Judgement, Vitus Rosario, Caterina Rosario, Abel Crispin, and Frank Voigt. Emmet is its informal head; Abel is its newest member.</p>
+<p>They meet at Emmet’s Dunes of Hell resort, in barren desert between Matamoros and the Rio Grande. The resort’s central feature is the Devil’s Well, a huge natural spring connecting by deep channels to both the river and the Gulf of Mexico. Any fish can be caught from it. Sometimes the Devil Himself sticks his head out. The Devil’s-Head manifestation has a single malevolent eye and a murderous voice surrounded by lesser voices “like jackals yapping around the roaring of a lion.” A man once offered $100,000 to learn the trick; Emmet refused because he does not know how it works. The narrator insists: “It wasn’t an effect! it was real.”</p>
+<p>The Committee debates the Boat People. Giobbe: they are physically formidable. Margret: she can barely keep from fighting their women. Emmet: he hired the biggest one as bouncer. Frank Voigt: they must be “short-time projections” that will “melt or evaporate” within thirty-six hours. Esther Scarlet asks why no one has checked the wood of their boats or the Boat People themselves. Oscar Judgement: “they lasso our minds . . . they lull and numb our apprehensions.” The members recognize that something is wrong but feel no urgency about it, and Oscar attributes this numbness to the Boat People’s influence.</p>
+<p>Vitus Rosario asks how Emmet came to buy this impossible resort. The buildings look like movie sets: “colorfully old and sand-blasted,” but no locals remember them being built. Esther speculates that they are all “characters in <em>Grandson of the Dunes of Hell</em> right now.” Margret reports genuine ghosts on the premises. A high-pitched whistling sounds from the Devil’s Well. The double agent arrives “with a great booming, with echoing splash and crash,” surfaces, rests his chin on the stones, and grins “with a meter-wide grin.”</p>
+<div><span class="chapter-tag">Informal Committee</span><span class="chapter-tag">Matamoros Chapter</span><span class="chapter-tag">Dunes of Hell</span><span class="chapter-tag">Devil’s Well</span><span class="chapter-tag">Devil’s Head</span><span class="chapter-tag">13 members introduced</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch3">
+<div class="chapter-header">
+<span class="chapter-number">III</span>
+<span class="chapter-title">Intrigue at the “Dunes of Hell”</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>The double agent is Robert Dolphin Liffy, a bottle-nosed dolphin 2.985 meters long. He wears a garment resembling an Inverness cape and a translator and throat microphone strapped to his throat. He introduces himself to the three members who have not met him. Margret invites him to “rub auras with me!”; he promises Esther “a very special relationship with you on several different levels.” His ambition is the throne of Domdaniel: “If I make it I’ll not be the first fish-face to sit on that throne.”</p>
+<p>Oscar Judgement demands intelligence. Robert dismisses the Boat People (“don’t worry about them”), explaining that his “vibes” had told him days ago the swarming would happen. He swam three and a half days to reach them, but dolphins experience “cubical time,” not the humans’ “flat time.” He knows the Boat People are connected to the “Spirits of the Deep” (his code name for the oceanic powers) and to the Domdaniel Empire, which is “much more mighty, civilized, rich, and populous than all the dry-land nations of the Earth put together.” No species with a cranial capacity under 1,150 cubic centimeters qualifies as a citizen.</p>
+<p>Robert dives through the Devil’s Well and resurfaces in the main supper-and-show room, where about a third of the afternoon house is Boat People. They pay in apparently ancient gold: Carthaginian coins, Persian Dorics, Macedonian Philippei, and a twenty-stater piece bearing the name of the Bactrian king Eucratides. Robert turns on the laughing gas. A Siemens Report records slaughter in five of five hundred ports, one percent of the ports. Oscar, still uneasy about the satisfaction that seems to numb everyone’s judgment, presses Robert for a way to investigate Domdaniel.</p>
+<p>Oscar declares: “Five of us, myself Oscar Judgement, Esther Scarlet, Carol and Jorge Meduna, and Margret Kirkestol are going to your Domdaniel within an hour.” Robert warns there is no way humans can travel there. Oscar insists: “You underestimate our technology, Dolphin.”</p>
+<div><span class="chapter-tag">Robert Dolphin Liffy</span><span class="chapter-tag">Inverness Cape</span><span class="chapter-tag">Spirits of the Deep</span><span class="chapter-tag">Ancient gold coins</span><span class="chapter-tag">Siemens Reports</span><span class="chapter-tag">Domdaniel expedition planned</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch4">
+<div class="chapter-header">
+<span class="chapter-number">IV</span>
+<span class="chapter-title">Prisoners in Domdaniel Dungeons</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Five humans (Oscar Judgement, Esther Scarlet, Carol Meduna, Jorge Meduna, and Margret Kirkestol) travel to Domdaniel by balloon with Robert Dolphin, who rides in a water tank and navigates by vibes. Robert plays chess with Jorge (losing) and announces his invention: a whistle-activated typewriter that “will type as fast as I can talk, and it does not make mistakes.” He plans to write “all my Secret Agent Case Histories on it, and also my Annals.” He wants the first book titled <em>Phooo</em>, “a cryptic title.”</p>
+<p>News from the world suggests that the Boat People govern lightly even as they take over municipal and state governments. Anthropologists identify more than a hundred traits distinguishing them from other human populations. Robert calls the Ocean an encyclopedia and explains dolphin perceptions of mirages, the past, and the future. He offers a piece of dolphin lore: “You can cure warts with the spittle of a Braxley’s Swell-Fish.”</p>
+<p>The balloon hovers over Domdaniel. Robert’s vibes go silent. Something rips the balloon “its entire eighty-five meter length” and jerks them down twelve kilometers through the air and another kilometer into the ocean. They land in the lower levels of Domdaniel, feet fastened to the floor. A Personage appears whose fiery face suggests a burning bush and cannot be viewed directly. “I am the Cat,” he says. “You are the mice.” The water rises to their chins.</p>
+<p>Margret identifies the Personage as Carmody Overlark. He stops the rising water but keeps the prisoners’ feet fastened to the floor. A fish-faced servant takes Robert to his newly arrived whistle-activated typewriter. Esther protests, “Robert, you have betrayed us for a pot of message.” Emmet, heard through the communication link, recalls Carmody’s reported death. Margret defies Carmody’s threat of water snakes: “I am a naturalist who is not afraid of anything natural. But you are unnatural.” Carmody leaves the five one inch from drowning.</p>
+<div><span class="chapter-tag">Balloon journey</span><span class="chapter-tag">Whistle-activated typewriter</span><span class="chapter-tag"><em>Phooo</em></span><span class="chapter-tag">Carmody Overlark revealed</span><span class="chapter-tag">Prisoners captured</span><span class="chapter-tag">Ghost Boats</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch5">
+<div class="chapter-header">
+<span class="chapter-number">V</span>
+<span class="chapter-title">And Breathe New World with Fishes’ Breath</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Back at the Dunes of Hell, the other eight Committee members monitor the world’s response: Emmet Briny, Giobbe Balena, Nero Altomare, Denis Gouffre, Vitus Rosario, Caterina Rosario, Abel Crispin, and Frank Voigt.</p>
+<p>Giobbe delivers a media roundup: the Puerto Rico Liberation Movement, the “Save-the-Prong-Horn-Antelope” group, the “Class Room Teachers’ Syndicate,” the “National-County-Jail-Prisoners-Union,” the “Revolutionary-Vegetarian-Enforcement-League,” the “Death-to-Smokers-After-May-Ninth-Militant-Group,” the “Ad hoc Take-Over Junket,” the “Gaiety Unrestrained Gala League,” the “Urban Burglars Mutual Society,” and the “Popular Causes Punitive League” all claim credit for the landings. The “Get Em Out By Morning Riflemen’s Action League” fires off rounds. The “Citizens’ Defense League” is banned on arrival. The president is at “Sea Haven, the Third White House.” The prime minister is at “Ocean Eden, the Third Number Ten Downing Street.” The hit song is “First Fish Night.”</p>
+<p>Caterina reads the Siemens Reports: synthetic throat-gills manufactured in Tampa can let a person breathe underwater. The boats’ short-lived material resembles Syntho-Form Wood. Nero reads <em>Contemporary Trade Opportunities</em>, which offers tips for the new markets. Caterina takes the paper to read advertisements for the Rapidity School of Languages and other courses whose knowledge is automatically forgotten. The paper then evaporates explosively in her face.</p>
+<p>Emmet declares the arrival good for business: “The Fortune Wind is blowing.” Frank warns the gold is almost all counterfeit (“Oh yes, they’re right there with gold content!”). Emmet decides to mint his own: “I’ll mint gold under the inscription of King Tut himself. I’ll have my own picture on some of the twenty dollar gold pieces.” Giobbe asks: “Who will pay for it when it’s over with?” Emmet: “I don’t believe that anybody will have to pay for it. The fast trade isn’t ever going to be over with.”</p>
+<p>A Boat Person interviewed by Siemens Reports says that his people are human, breathe underwater, and “get restless every few centuries and want to go somewhere and raise a ruckus.” He calls the ruler of Domdaniel the emperor of the World. He also describes the notion mill, formerly used to grind salt, and Ocean Rumor, a news service available on land as well as in the ocean.</p>
+<p>At 10:15 p.m. of First Fish Night, the eight members receive their new throat-gills, installed in fifteen seconds under anesthesia. They descend through the Devil’s Well into the ocean. “The ‘green darkness’ of the night-time deeps is not total darkness.” They discover they can breathe underwater, swim powerfully, and even have an advantage over dolphins: “They didn’t need to surface to breathe. They didn’t need blow-holes.”</p>
+<div><span class="chapter-tag">Dunes of Hell</span><span class="chapter-tag">Media satire</span><span class="chapter-tag">First Fish Night</span><span class="chapter-tag"><em>Contemporary Trade Opportunities</em></span><span class="chapter-tag">Siemens Reports</span><span class="chapter-tag">Throat-gills</span><span class="chapter-tag">Fortune Wind</span><span class="chapter-tag">Green darkness</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch6">
+<div class="chapter-header">
+<span class="chapter-number">VI</span>
+<span class="chapter-title">Heroic Age When We Were Young</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Back in Domdaniel. Margret Kirkestol confronts Carmody Overlark directly: “The most evil man in the world! . . . You are like an evil magnet attracting people to you.” Carmody takes it as a compliment. He warns the prisoners that if they fall asleep they will drown, and leaves to attend to “the notables.”</p>
+<p>A fish-faced Tyrrhenian servitor appears: Secret Agent Twenty-Three, also Slave Twenty-Three and the emperor’s right hand. He is Robert’s close friend and a fellow participant in interspecies studies. He frees the prisoners’ feet and later installs throat-gills, talking to distract them from the pain. He distinguishes Tyrrhenian Fish from Tyrrhenian Men, who are closely related to the Boat People.</p>
+<p>Twenty-Three attributes the synthetic throat-gills to Carmody. The manufacturer in Tampa is a deposed ruler who copied the apparatus already fitted to his own throat. Robert enters as Secret Agent Number One and ceremonially ordains Twenty-Three. His own authority comes from a thirty-five-dollar correspondence course and an additional ten-dollar payment permitting him to ordain others. He gives his memoirs the working title <em>Phooo, or The Memoirs of a Secret Agent</em>.</p>
+<p>Twenty-Three says that Domdaniel is “more than a million years old” and has been ruled by the elites of several species. In ancient annals hidden in a cave, he found charms for toppling emperors and outwitting rivals. He believes the Boat People descend from Tyrrhenian Fish and Carmody’s para-human species. Their permanent settlements on land are on the Adriatic coast of Albania and the Bushire coast of Iran. Their boats, he says, are “propelled by the psychic hysteria and delirium of the Boat People.”</p>
+<p>Carmody returns with the president of the United States, “Reddy Boy,” who proposes increasingly sadistic tortures. Carmody repeatedly defers them. He explains that the Matamoros Chapter attracted his attention by thinking and questioning outside the limits he had set for the world. After the two rulers leave, the prisoners declare their own heroic age. Margret exclaims, “I never knew before how sparkling it was to be heroic!”</p>
+<div><span class="chapter-tag">Domdaniel</span><span class="chapter-tag">Agent Twenty-Three</span><span class="chapter-tag">Slave and Mameluke Emperor</span><span class="chapter-tag">Inter-Species Studies</span><span class="chapter-tag"><em>Phooo</em> titled</span><span class="chapter-tag">President “Reddy Boy”</span><span class="chapter-tag">Tyrrhenian Fish origins</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch7">
+<div class="chapter-header">
+<span class="chapter-number">VII</span>
+<span class="chapter-title">Climbing Upward Through the Sky</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Oscar demands intelligence before escaping. Twenty-Three says that Carmody fathered two related races by “milting” fish roe many millennia ago, a story Oscar challenges. He evades questions about the plague and admits that his knowledge of the fortress has gaps. There is a chute through the walls, but he will not risk further help unless it advances his revolution.</p>
+<p>Twenty-Three will not lead them through the ninth wall: invisible cliffs a thousand meters high in the air above the ocean, “as slick as ice,” with a “special aspect” too dangerous to mention. Robert Dolphin, as a dolphin, cannot climb them either. Margret persuades Robert to guide them through the first eight walls. “I believe that we can do things for you that this Personage cannot do.”</p>
+<p>Robert guides the escape through eight walls. An opening ritual begins “This is the Iron Night, Night of the Dire Attempt” and puts the Sea Mastiffs guarding the first wall to sleep. Margret cuts the throats of all nine dogs. Oscar sustains the party with whistled music: “Terror in the Deep,” “Drowned Men’s Rag,” “When the Sea Gives Up Its Dead,” and “Nile Down Meander.” With their throat-gills, the humans can sing underwater.</p>
+<p>Robert appears in another disguise, looking like a strange young dolphin. His Inverness cape conceals artificial throat-gills, which let a surface-dwelling dolphin survive in the depths. Margret and Robert repeatedly go apart during the escape. When he sulks and refuses to lead them through the eighth wall, their confrontation reveals that he is only five years old. Margret asks whether he has read <em>What a Young Dolphin Boy Ought to Know</em>. “There’s no such book, Margret,” he replies.</p>
+<p>They break through the ocean’s surface half an hour before sunrise. Robert cannot climb the ninth wall’s invisible cliffs. He describes their sharp stalactites, then leaves by sky-shuttle on a mission he says will save mankind. Oscar distrusts his departure but leads the humans upward, whistling “Fair Ghost Invisible, I Long for Thee.”</p>
+<div><span class="chapter-tag">Escape through eight walls</span><span class="chapter-tag">Nine Iron Walls</span><span class="chapter-tag">“Terror in the Deep”</span><span class="chapter-tag">“Drowned Men’s Rag”</span><span class="chapter-tag">Robert is five years old</span><span class="chapter-tag">Invisible cliffs</span><span class="chapter-tag">Robert’s disguise and throat-gills</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch8">
+<div class="chapter-header">
+<span class="chapter-number">VIII</span>
+<span class="chapter-title">Disguises Cannot Long Conceal</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Robert Dolphin appears at World Medical Headquarters in New York on the morning of “Second Fish Day,” in five successive disguises: a weird hobbling tall man, an Arabian camel-driver in burnoose, a tall basketball player in New York Rounders sweats, a tall doctor with monocle speaking Barcelonian Spanish, and a cowboy twirling a rope. All are Robert, and none is taken seriously. Other administrators call the aquarium to report “a mad dolphin loose in midtown.”</p>
+<p>Unable to get a hearing, Robert makes calls from a phone booth. Carmody cuts short his call to the president; Twenty-Three discusses the revolution over a separate radio-phone. Robert tells Emmet where he has left a disease sample and an easily replicated vaccine: locker 502 at the midtown YMCA in New York. He then relays a separate, hypnotically implanted invitation to Domdaniel, directing the eight members in Matamoros to a sand dune for transportation. Caterina reports that the impending plague ranks fifth among the morning’s wildest rumors.</p>
+<p>Robert orders long-stemmed roses with “sharp-memory” thorns for a special delivery. He makes further calls and leaves the booth for a hotel pool. His cigarettes bear counterfeit Sullivan labels, and his rare lighter and elaborate nonchalance form part of his secret-agent performance.</p>
+<p>At the pool, a Boat Person orders roast dolphin’s nose and identifies himself as Robert’s assigned tail. He says that the plague rumor is a manipulative tool and that his people intend to charge for the vaccine. Robert tries to lose him through three taxi journeys and three changes of disguise, then retreats into a basement. The tail is already there, still eating dolphin’s nose: “What took you so long?”</p>
+<p>The chapter ends with the other eight Matamoros members receiving the decoded message at the Dunes of Hell. They walk to the coordinates. “Then—whoosh!—it came and got them.”</p>
+<div><span class="chapter-tag">Five disguises</span><span class="chapter-tag">World Medical HQ</span><span class="chapter-tag">Second Fish Day</span><span class="chapter-tag">Sullivan cigarettes</span><span class="chapter-tag">Raffles</span><span class="chapter-tag">Sharp-memory thorns</span><span class="chapter-tag">The Tail</span><span class="chapter-tag">Easy Replicating Vaccine</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch9">
+<div class="chapter-header">
+<span class="chapter-number">IX</span>
+<span class="chapter-title">Remember Me with Thorns</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Oscar Judgement’s first contingent (Oscar, Esther, Carol, Jorge, and Margret) climbs the invisible cliffs of the ninth wall. The cliffs are crystalline, “the stairway to the next sphere.” The wind is exuberant. Sharp invisible stalactites wound them. They climb by feel, unable to see the surface. Twice, false narratives intrude, including purple prose about “bursting lungs and bloody-bruised hands,” which Oscar dismisses as planted fictions: “somebody was trying to fill them with defeat.”</p>
+<p>A supersonic mini-car delivery arrives mid-climb: “One dozen long-stemmed roses for Miss Margret Kirkestol from one—ah—Robert Al-dolphin Liffy.” Margret, hanging by one hand on an invisible cliff, accepts them in her mouth. The card reads: “To my first love. Roses fade and die, but thorns are forever. Remember me with thorns.” The delivery pilot tells them they are climbing the outside of Domdaniel, not the inside: “A lot of people make that mistake.” He offers to send a sky-taxi.</p>
+<p>They climb down and wait on a rock buttress of Domdaniel that protrudes above the ocean. Margret dribbles blood from the thorns: “It seems that young Robert Dolphin really does love me.”</p>
+<p>Meanwhile, the other eight members (Emmet, Giobbe, Nero, Denis, Vitus, Caterina, Abel Crispin, and Frank Voigt) are snatched from the Dunes of Hell by the sky-shuttle. They crash down into Domdaniel “much faster than they would have descended in free fall.” Emmet roars: “The Emperor of Domdaniel will hear about this!” They land in the Masterpieces of Death room. Carmody addresses the absent Robert, praising his deception and wondering why he has not accompanied the prisoners. Twenty-Three claims that piranhas ate the first contingent. Carmody identifies Caterina: “She does not inflame me as much as the blonde Margret.” She calls him “the most evil man in the world!” Twenty-Three groans: “A damned replay!”</p>
+<p>Carmody unveils the Masterpieces of Death, a twelve-sided gallery containing more than three thousand paintings and sculptures of deaths that occurred there. The great scene he lacks is the murder of Abel. The Devil painted it as an eyewitness, and Carmody longs to steal the painting from hell. A predecessor who stole it possessed it for seven seconds before suffering everlasting destruction.</p>
+<div><span class="chapter-tag">Ninth wall / invisible cliffs</span><span class="chapter-tag">Rose delivery mid-climb</span><span class="chapter-tag">Second contingent captured</span><span class="chapter-tag">Masterpieces of Death</span><span class="chapter-tag">The murder of Abel</span><span class="chapter-tag">“A damned replay!”</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch10">
+<div class="chapter-header">
+<span class="chapter-number">X</span>
+<span class="chapter-title">It’s Bloody but Is It Art?</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>The chapter opens with a meditation on “two great and deep and oceanic minds duelling across an abyss.” Robert, in New York, smokes his Sullivan cigarette and lights it with his Limited Edition Lighter, performing the secret agent persona. But he is wracked with guilt: “looking at it one way, he was a shameful betrayer.” Agent Twenty-Three, “a very nice fellow (if you like fish-faces),” plots the palace revolution and recognizes that Robert must impersonate Carmody for the takeover to succeed.</p>
+<p>In Domdaniel, Carmody continues the art tour with the eight new prisoners. The Masterpieces of Death are documentary: Alexander Hamilton did not die at Weehawken; deaf Beethoven did not die in 1827 but nine years later “with his head exploded”: “see the scorings and musical notations pouring out of his exploded head.” Raphael painted here for thirty-five years after his supposed death. Galileo was snatched by Carmody. Jeanne d’Arc was “grabbed off by a strange scooping device” from her burning and brought to Domdaniel. Thirteen popes visited; three did not return.</p>
+<p>Denis calls Carmody “You devil, you bugger!” Carmody turns the insults into supposed divine titles by linking <em>devil</em> with <em>deva</em> and <em>bugger</em> with <em>bog</em>. He also describes the Sea People’s migrations and their remote burial grounds, known to Breton fishermen before Columbus.</p>
+<p>Agent Twenty-Three, conducting the second part of the tour, plots with the slaves. They need Robert to impersonate Carmody. “Any really top Secret Agent could do it.” In New York, the Tail continues to shadow Robert, who is troubled by his conscience. The Tail brings him a daisy: “‘She loves me not’ means that you stay here and sulk. ‘She loves me’ means that you take a supersonic sky taxi back.” Robert plucks: “she loves me.” He orders a taxi.</p>
+<p>The first contingent still waits on the rock buttress. Carmody, mid-tour, breaks off: “I must leave you here, briefly, to attend to private affairs.” Twenty-Three takes over.</p>
+<div><span class="chapter-tag">Masterpieces of Death (continued)</span><span class="chapter-tag">Sullivan cigarettes</span><span class="chapter-tag">Etymology: <em>deva</em>/<em>devil</em>/<em>God</em></span><span class="chapter-tag">Plague threat</span><span class="chapter-tag">Daisy petals</span><span class="chapter-tag">Palace revolution plotted</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch11">
+<div class="chapter-header">
+<span class="chapter-number">XI</span>
+<span class="chapter-title">The Twist and Turn of Fishy Mind</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>The chapter opens with four epigraphs: “The Fair Hills of Eire, O!” (Mangan), “The hills of Ocean skip like lambs” (<em>Old Dory Song Book</em>), a “Nostradamus Dolphinus” prophecy (“When older King is overthrown / A fish-face shall possess the throne”), and a snippet from <em>Palace Revolution, a Play in Nine Acts</em>, by the Tyrrhenian Tyrant (Twenty-Three’s own work).</p>
+<p>Twenty-Three conducts the eight prisoners through Domdaniel’s galleries. In the Golden Room, statues of mythological creatures are hammered so fine that some are translucent or float on static electricity. A dying third French horn player, an Euxine Harpy, lies among casualties of factional fighting. The “Poor Fishes’ Broadcast” announces Robert’s approach in verse.</p>
+<p>Twenty-Three negotiates with the Committee. Emmet demands that the swarming and plague be recalled. Twenty-Three says a new ruler could countermand them, but questions why saving humanity matters so much. The eight agree to support his revolution; he appoints Emmet to his provisional council.</p>
+<p>They visit the Oceanic Graphics Room and approach the Schism Room of Subliminal Art, then turn instead to the Beauty-To-Make-The-Blood-Pound-By Room. Carmody has placed living women among its images. The seven men are drawn away, leaving Caterina to replace Emmet on the provisional council. Twenty-one minutes are left before the revolution is due to begin; the plague will activate fifteen minutes later unless stopped.</p>
+<p>The Poor Fishes’ Broadcast announces: “I’ll come to you, I’ll come to ye, / And be among you suddenly.”</p>
+<div><span class="chapter-tag">Four epigraphs</span><span class="chapter-tag">Golden Room</span><span class="chapter-tag">Oceanic Graphics Room</span><span class="chapter-tag">Beauty Room trap</span><span class="chapter-tag">Poor Fishes’ Broadcast</span><span class="chapter-tag">Revolution countdown</span><span class="chapter-tag">Swarming/plague negotiation</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch12">
+<div class="chapter-header">
+<span class="chapter-number">XII</span>
+<span class="chapter-title">Disguise Will Sit upon the Throne</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>The first contingent (Oscar, Esther, Carol, Jorge, Margret) waits on the rock buttress. A sixth person appears “among them suddenly”: apparently Robert Dolphin, grand and imperially composed. Margret is smitten: “A thousand years from now I can still peal with delight ‘The Dolphin Emperor once sent me Roses!’” This Robert seems benevolent and all-knowing. He pays off a sky-taxi with a gold piece “the size of a quoit.” He tells them Domdaniel is now “the most benevolent place in the world.”</p>
+<p>A second dolphin, grubby and awkward, then falls out of another sky-taxi. He resembles Robert but is less impressive in every respect, and he is bewildered: “Who are you? How come you look like me?” The five Committee members laugh cruelly. The grand Robert is compassionate. The grubby dolphin is left on the buttress: “I am not free to go while this thing is awry with the world.”</p>
+<p>The grand Robert and the five descend into Domdaniel. The grubby dolphin is the real Robert, now alone. “I am out of my mind!” He realizes that the grand version is Carmody Overlark disguised as him. “But who is he then, if he makes a better me than I do?” He devises a counterstroke: “I’ll disguise myself as the Great Carmody, that’s what I’ll do. Two can play this game.”</p>
+<p>Robert-as-Carmody descends to Domdaniel. Agent Twenty-Three recognizes him: “You do make a tolerable Tyrant Carmody, and he makes an excellent Robert Dolphin.” The Tyrrhenian Fish see through both disguises intuitively, but the ten thousand of them will say nothing. Robert-as-Carmody climbs the three hundred giant steps to the throne (awkwardly, since “dolphins are not great leapers except in the water”), orders the dragons-teeth soldiers to cover their eyes, and sits on the throne of Domdaniel.</p>
+<p>On the throne, Robert experiences Carmody’s memories and pseudo-memories. They include service as Kar-im-Mod behind Akhnaton, the identity Khar-ibn-Mod, and a life as Haroun-al-Raschid. Robert presses the “Turn Swarm Off” and “Turn Plague Off” activators. As revolutionaries enter and kill the guards, he considers the human world probably saved. Still disguised as Carmody, he responds to the demand that he abdicate: “Oh, that’s easy. . . . I abdicate.”</p>
+<div><span class="chapter-tag">Carmody-as-Robert</span><span class="chapter-tag">Robert-as-Carmody</span><span class="chapter-tag">Double impersonation</span><span class="chapter-tag">Throne seized</span><span class="chapter-tag">“Turn Swarm Off” / “Turn Plague Off”</span><span class="chapter-tag">“I abdicate”</span><span class="chapter-tag">Dragons-teeth soldiers</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch13">
+<div class="chapter-header">
+<span class="chapter-number">XIII</span>
+<span class="chapter-title">Interview with Ocean</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>The Boat People are building new boats on every shore, making a show with axes and hammers “when land people were watching them; but that was all sham.” They build the boats already afloat, from plankton and algae. All fifty million are preparing to leave, less than twenty-four hours after arriving.</p>
+<p>Most of the chapter is an interview between freelance writer Elroy Oldapple and Whitefin Slackwater, an informed Boat Person. Slackwater describes a population of about a billion in the oceans, Sea People living unnoticed on land, turtlenecks that hide throat-gills, and government by rotation among groups of nine adults. Oldapple lists conflicting explanations of Domdaniel; Slackwater says Carmody’s reign may end that day.</p>
+<p>Further topics: property rights (rights to currents that move around), morality (“Oh sure. Are you?”), whale-hunting (“we drive them over cliffs”), monogamy (“one of those women of ours is sure enough”), gold coins (copied from old designs; “we might be accused of counterfeiting”), invisibility again (“We Sea People have always been the ‘Invisible People’”), Christianity (“we were the first Christians. Peter, Andrew, James, and John, all those Galilean commercial fishermen were Sea People”), the Ring of the Fisherman, clothing and tattooing (“we invented it”), boat construction (plankton and algae; “we eat them” afterward), arts (scrimshaw, live drama), dolphins (Robert as pop hero; “If you ever get down to the Mile Down Ride-In Cinema”), sports (shark rodeo), corruption (“We call it ‘clean corruption’”), tourism (“six weeks for six dollars”).</p>
+<p>The plague: “Oh, that’s just been postponed. It’s just been scrubbed by imperial edict, push-button division.” The Tyrrhenian People and Tyrrhenian Fish: “just alike except that one group of them are people and the other group of them are fish.” They have been called “the Bureaucrats of the Ocean.” Carmody’s age: people live twenty times longer in the Ocean, so “the longest that Emperor Carmody could possibly have lived is about two thousand years.”</p>
+<div><span class="chapter-tag">Slackwater–Oldapple interview</span><span class="chapter-tag">Sea People anthropology</span><span class="chapter-tag">Invisible People</span><span class="chapter-tag">Ring of the Fisherman</span><span class="chapter-tag">Plague postponed</span><span class="chapter-tag">Bureaucrats of the Ocean</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch14">
+<div class="chapter-header">
+<span class="chapter-number">XIV</span>
+<span class="chapter-title">And for a Snipe a Throne Was Lost</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Carmody, still disguised as Robert, enters at throne level with Margret and a large entourage. He changes back into his own form and rejects Robert’s abdication on his behalf. He orders a thousand Ataraxian guards to remove Robert. Robert sheds his material disguise, claims the authority of the occupied throne, and redirects the guards against Carmody.</p>
+<p>Margret hacks the hand off the foremost guard with a short hooked knife. “Faint you not, Guardsman!” she orders, then commands him to pick up his severed hand. She defends Carmody against the revolutionaries and declares that she will be his Golden Consort. Robert pleads: “He is not me. I am myself now, undisguised.” Margret refuses to follow him: “I’ll in no way go with you, little boy dolphin.”</p>
+<p>Robert tries practical arguments: Carmody has six wives already, and Robert could be emperor. “His first six wives don’t understand him at all,” Margret explains. “I’ll be number seven, and I’ll try harder.”</p>
+<p>Robert returns to the throne before Twenty-Three can occupy it. Carmody and Margret depart in state through the Departures of Emperors door to <em>Pomp and Circumstance</em>. Twenty-Three then announces an election in which he is the only available candidate and elector: his guards have locked the others in a dungeon. When Robert refuses to leave the throne, Twenty-Three exposes the counterfeit Sullivan labels and offers him a genuine cigarette.</p>
+<p>Twenty-Three produces a genuine Sullivan cigarette: “the only genuine ‘Sullivan’ Cigarette that you have ever seen.” Robert, overcome with desire, abandons the throne to scramble for it on the floor. “Emotion overruled judgement in the Great Dolphin whose only fault was impetuosity.” Twenty-Three takes the lighter too: “It is as ill-bred as it is reprehensible for you to have it.” Robert, “unutterably ashamed,” melts into the crowd.</p>
+<p>Twenty-Three admits that Robert was the true 288th emperor for seven minutes, since the sentient throne accepted him. He then declares himself the 289th, adopting the name Conde Embustero, the Lying Count. Robert has already left in shame. Trumpet pieces mark his brief reign and Twenty-Three’s election. The new emperor announces a coronation in nine hours and acknowledges that the threatened destruction of humanity has been prevented.</p>
+<div><span class="chapter-tag">Carmody morphs back</span><span class="chapter-tag">Margret defends Carmody</span><span class="chapter-tag">Genuine Sullivan</span><span class="chapter-tag">Robert loses throne</span><span class="chapter-tag">Twenty-Three elected</span><span class="chapter-tag">Departures of Emperors</span><span class="chapter-tag"><em>Pomp and Circumstance</em></span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch15">
+<div class="chapter-header">
+<span class="chapter-number">XV</span>
+<span class="chapter-title">Dark Night of Despond</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Robert swims in purgatorial waters, humiliated by having abandoned the throne for a cigarette. Ocean Rumor reports his despondency, and the Ocean Voice asks that someone direct him toward companionship. His lament draws on Isaiah, Job, Shakespeare’s Sonnet 129, and <em>The Merchant of Venice</em>.</p>
+<p>At St. Malo’s of the Ocean, a settlement of purgatorial persons, Robert meets Dan Asal, a leprous ghost and former pharmacist. Dan is detained for killing a man and dying only partly repentant. His wife, free to leave, stays with him. Dan tries to draw Robert out of his misery; Robert instead asks for help finding a way to end his life.</p>
+<p>The ensuing dialogue turns Robert’s despair into a succession of grotesque practical problems. Methods borrowed from spy fiction prove unsuitable for a dolphin. Dan’s self-reloading remorse pistol also fails him. Robert’s inventive energy revives as he sketches a special pistol and imagines manufacturing it. Dan then hears the story of the lost throne and insists that a genuine Sullivan cigarette might justify the exchange.</p>
+<p>A young dolphin arrives, Robert’s future protégée. She wants to be a secret agent and knows everything about the upcoming coronation: the Jewelry Whale, seven cartels of jewel thieves, the new donations. “When will you do it? After your greatest triumph of them all I suppose.” Robert’s depression lifts. Before leaving, he urges Dan to write “I’m sorry that I killed that guy.” Dan writes it, then adds: “but I’d damnite do it again!” Fire destroys the paper; a new blank sheet appears. “It happens every time.” Robert and the young dolphin depart “skipping and cutting along the oceanic hills towards Domdaniel and adventure.”</p>
+<div><span class="chapter-tag">Purgatory / St. Malo’s</span><span class="chapter-tag">Dan Asal</span><span class="chapter-tag">Suicide comedy</span><span class="chapter-tag">Remorse pistol</span><span class="chapter-tag">“Gyroscopic Whistle Boogie”</span><span class="chapter-tag">Little dolphin arrives</span><span class="chapter-tag">Fictional titles</span></div>
+</div></div>
+</div>
+<div class="chapter-card" id="ch16">
+<div class="chapter-header">
+<span class="chapter-number">XVI</span>
+<span class="chapter-title">Hot Ice at the Coronation</span>
+<span class="chapter-toggle">▶</span>
+</div>
+<div class="chapter-body"><div class="chapter-content">
+<p>Ocean Rumor runs seventeen minutes behind. Twenty-Three now bears an elaborate chain of imperial titles, ending with “The Fish-Faced Emperor.” A thousand whales and a hundred mammoths are prepared for the banquet. He confirms to Robert that Robert’s seven-minute reign was legitimate. Robert enters by a secret door he commissioned while serving as Carmody’s third hand; the young dolphin enters by the dolphin locks.</p>
+<p>Robert updates <em>Phooo</em> on his whistle-activated typewriter at “about a thousand words a minute.” He is haunted by two new high-rank agents: Secret Agent One-Plus and an agent known as “The Sun and the Moon.” One-Plus reads Robert’s mind; only Carmody could do that. The Sun and the Moon is Margret. They are Carmody and Margret, working as secret agents “for the enjoyment and excitement and power of being Secret Agents for a little while.”</p>
+<p>The Jewelry Whale arrives: “the largest sperm whale that could be found, completely hollowed out, and filled with jewels.” But three jewel thieves from the Karachi Kartel are discovered baked inside it. The Seneschal of the Kitchens serves them at the head table: “It’s man, Karachi Man. . . . How could anyone ever forget that taste?” The whale’s jewels have been replaced with “slag, melted glass, melted limestone and paste,” but this was a decoy. The little dolphin reports: the real Jewelry Whale is coming through another Sea Gate. Margret and Carmody have already taken “ten thousand exquisite small pieces.”</p>
+<p>The genuine Jewelry Whale surfaces in the Grand Piscina: “Never since the beginning of the world had there been such a donation.” The lolling head notices ten bushels missing. The little dolphin nonchalantly lights a Sullivan cigarette with the Limited Edition Lighter, stolen from Twenty-Three. She does the Unfathomable Secret Look. She pitches herself as security consultant for the Matamoros Chapter: “Robert is getting too uppity for them. I can’t afford to get uppity yet.”</p>
+<p>Robert has gone to his typewriter. The novel’s final lines: “What did happen to the memoirs and annals of Robert Al-dolphin Liffy? Did he finally finish writing them on that whistle-activated typewriter? Did he really complete that astonishing body of work? Sure he did. This is it.”</p>
+<div><span class="chapter-tag">Coronation</span><span class="chapter-tag">Jewelry Whale (decoy and real)</span><span class="chapter-tag">Karachi Men / Karachi Kartel</span><span class="chapter-tag">Carmody as Agent One-Plus</span><span class="chapter-tag">Margret as Sun and Moon</span><span class="chapter-tag">Little dolphin’s debut</span><span class="chapter-tag">“This is it.”</span></div>
+</div></div>
+</div>
+</div>
+</section>
+<!-- ──────────────────────────────────────────────────
+     CHARACTERS
+     ────────────────────────────────────────────────── -->
+<section class="content-section" id="section-characters">
+<h2>Characters</h2>
+<div class="filter-bar">
+<button class="filter-btn active" data-filter="all">All</button>
+<button class="filter-btn" data-filter="matamoros">Matamoros Chapter</button>
+<button class="filter-btn" data-filter="domdaniel">Domdaniel Court</button>
+<button class="filter-btn" data-filter="ocean">Ocean</button>
+<button class="filter-btn" data-filter="other">Other</button>
+</div>
+<div class="character-grid">
+<div class="char-card" data-faction="ocean">
+<div class="char-name">Robert Dolphin Liffy</div>
+<div class="char-role">Secret Agent Number One · double agent · bottle-nosed dolphin</div>
+<div class="char-desc">The protagonist is a five-year-old bottle-nosed dolphin, 2.985 meters long, who works for the Matamoros Chapter and serves as Carmody’s “third hand.” He prefers the name Robert Al-dolphin Liffy, with his honorific between his first and last names like a cardinal’s. He wears an Inverness cape, uses false Sullivan cigarette labels, and writes his memoirs on a whistle-activated typewriter. He studied in several interspecies programs and attended Harvard, where he lettered in water polo and joined the whistling team. His correspondence course makes him Secret Agent Number One. Disguised as Carmody, he occupies the throne and switches off the swarm and plague. His own reign as the 288th emperor lasts seven minutes. Twenty-Three tricks him into leaving the throne for a cigarette, but Robert eventually recovers from his shame and returns to the coronation and his writing.</div>
+<div class="char-quote">“What’s money to a dolphin?”</div>
+</div>
+<div class="char-card" data-faction="domdaniel">
+<div class="char-name">Carmody Overlark</div>
+<div class="char-role">Emperor of Domdaniel · Emperor of the World</div>
+<div class="char-desc">Margret calls him “the most evil man in the world.” He is a morphic, a shape-shifter who “can look like whatever he wants to look like.” He rules from Domdaniel with access to eschatological activators and serves as his own “Master of Galleries,” docent of the Masterpieces of Death. He claims to be thousands of years old, though Slackwater estimates a maximum of two thousand. He has been “Kar-im-Mod the power behind the heretic pharaoh Akhnaton” and “Haroun-al-Raschid,” among many aliases. His titles also include Slave and Mameluke emperor. His impersonation of Robert Dolphin is so convincing that Robert asks who he is “if he makes a better me than I do.” He departs through the Departures of Emperors door: “I need to suffer a revolution now and then as a snake needs to shed its skin.” He returns as Secret Agent One-Plus at the coronation, working alongside Margret.</div>
+<div class="char-quote">“I am the Cat,” the Personage said. “You are the mice.”</div>
+</div>
+<div class="char-card" data-faction="domdaniel">
+<div class="char-name">Agent Twenty-Three (the Tyrrhenian Tyrant)</div>
+<div class="char-role">Slave &amp; Secret Agent · Right Hand of the Emperor · becomes 289th Emperor</div>
+<div class="char-desc">A Tyrrhenian Fish, “a pleasant, intelligent, and urbane person” with a fish face. Robert calls him his closest friend and says that they studied together in the Inter-Species program and at Harvard. Twenty-Three is a slave, a secret agent, and the emperor’s right hand. He frees the prisoners, installs their throat-gills, conducts the art tour, and plots the palace revolution. He found ancient “Charms to Topple an Emperor by” in a secret cave. His personal name, revealed at the coronation: Roberto Carlos Horst Josef Franz Fritz. He tricks Robert off the throne with a genuine Sullivan cigarette and declares himself the 289th emperor of Domdaniel, taking the titles “Conde Embustero” (the Lying Count), “Graf Schwindler,” “the Fish-Faced Emperor,” “Knight of St. Elmo,” and “True Fish and True Flesh.” He is also the author of <em>Palace Revolution, a Play in Nine Acts</em>, by the Tyrrhenian Tyrant.</div>
+<div class="char-quote">“Aye, I lied and I cheated, and those acts of mine take their places among my imperial attributes.”</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Margret Kirkestol</div>
+<div class="char-role">Secret Agent “The Sun and the Moon” · Matamoros Chapter</div>
+<div class="char-desc">A youngish blonde who looks “sometimes like a happy lioness and sometimes like an angry lioness.” Fierce and physically formidable, she kills nine Sea Mastiff guard dogs during the escape, and hacks a guardsman’s hand off in the throne room. Norwegian: “We Norwegians always believed that the nest of the sea-tern is built high in the sea-air unsupported.” She receives the roses mid-climb on the invisible cliffs: “Roses fade and die, but thorns are forever.” She chooses Carmody over Robert (she says that the first six wives do not understand him and that she will try harder), becomes Golden Consort of the former emperor, and operates as secret agent “The Sun and the Moon” at the coronation.</div>
+<div class="char-quote">“I am a naturalist who is not afraid of anything natural. But you are unnatural.”</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Emmet Briny</div>
+<div class="char-role">Informal head · Matamoros Chapter</div>
+<div class="char-desc">Owner of the Dunes of Hell Resort-Hotel, Restaurant, Nightclub, and Casino. Commands a plush operation with gambling, floor shows, and the Devil’s Well. He bought the resort under mysterious circumstances: the buildings look like movie sets, and he is “in a daze” about the transaction. Practical, wealthy, and energized by the Boat People crisis: “The Fortune Wind is blowing.” He proposes minting gold coins under the inscription of King Tut. He becomes one of Agent Twenty-Three’s provisional councilmen, and is lured away by a beautiful woman from the wall in the Beauty Room: “Will you teach me the latest commando tactics?”</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Oscar Judgement</div>
+<div class="char-role">Leader of the Domdaniel expedition · Matamoros Chapter</div>
+<div class="char-desc">A forceful man and talented money manipulator who has chosen to live outside the United States until an unspecified controversy subsides. He formerly owned an oceanarium. He leads the five-person expedition to Domdaniel and the escape through its walls. His whistling sustains the party underwater; he later leads the climb of the invisible cliffs. He persistently demands information about the threat to humanity and insists that Robert’s brief reign receive formal recognition.</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Esther Scarlet</div>
+<div class="char-role">Former actress · Matamoros Chapter</div>
+<div class="char-desc">“She had been an actress and this was her actress name; she had retired from acting at the age of nineteen, but would come out of retirement if a suitable vehicle for her was found.” Aggressive, statuesque, intelligent. She pushes the Committee to act when others are paralyzed: “Why haven’t we or somebody checked the wood of their boats? Why haven’t we checked the Boat People themselves?” She recognizes Carmody from some prior context: “Your name, I believe, is best forgotten.” She declares the heroic age at the ocean surface: “Now I understand what it is to live in an heroic moment.”</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Giobbe (Job) Balena</div>
+<div class="char-role">Medical doctor · Matamoros Chapter</div>
+<div class="char-desc">Like his biblical namesake, Job, he has suffered misfortunes, but has overcome them with less visible anguish. A medical doctor, he administers the fifteen-second anesthesia for the throat-gill installations and notes that “terminal fever smells like that too.” He monitors the dry-land media response and delivers the chapter’s satirical news roundup of organizations claiming credit for the Boat People landings. He assesses the Boat People physically: “They will average better than any fighter that you ever had on one of your bills.”</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Nero Altomare</div>
+<div class="char-role">Intellectual net-man · Matamoros Chapter</div>
+<div class="char-desc">The Committee’s intellectual “net-man”: “he cast his nets wider and into stranger waters than the rest of them, but the fish that he netted were disappointingly small.” He reads <em>Contemporary Trade Opportunities</em> for news of the commercial response to the landings. In Domdaniel he confronts Carmody over the plague and is later lured away by a woman in the Beauty Room.</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Jorge Meduna</div>
+<div class="char-role">Matamoros Chapter</div>
+<div class="char-desc">“Where had he got all his talent, and where had he got Carol?” Accompanies the first expedition to Domdaniel. He plays chess with Robert Dolphin in the balloon and wins. He asks the practical questions: “Is there not some kind of chute down through the nine iron walls?” He protests Lord Dolphin’s grandiosity: “The mad Emperor, the Tyrant of Tyrants is on a rampage down there!”</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Carol Meduna</div>
+<div class="char-role">Matamoros Chapter</div>
+<div class="char-desc">A wealthy member of the Matamoros Chapter, paired with Jorge Meduna. Both join the first expedition to Domdaniel. She recalls their stay in suite 307 at the Dunes of Hell, checks Robert’s mixed metaphors, and carries the “Nineteen-in-One Screw Driver Set” used during the escape. She asks Twenty-Three whether a successful revolution would secure the prisoners’ release.</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Caterina Rosario</div>
+<div class="char-role">“A rather eclipsing person on her own” · Matamoros Chapter</div>
+<div class="char-desc">Wife of Vitus, but formidable independently. Monitors the Siemens Reports on throat-gills and Syntho-Form Wood. She is the only member of the second contingent not lured away by Carmody’s wall-women in the Beauty Room: “Vitus, I don’t want you to go with that girl.” She replaces Emmet as Agent Twenty-Three’s provisional councilwoman. She accuses Carmody: “the most evil man in the world!” (the “replay” of Margret’s identical outburst). She keens for Robert at the end: “He didn’t know that they played this game with bare blades.”</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Abel Crispin</div>
+<div class="char-role">Newest member · Matamoros Chapter</div>
+<div class="char-desc">“The newest member, he had transferred from another chapter and not much was known about him yet.” He stays behind at the Dunes of Hell (not in the balloon party). In Domdaniel, he notices the battler in the Masterpieces of Death: “He didn’t want to die. He was a battler.” He presses Twenty-Three on the swarming timeline: “Say that you’ll recall the swarming before it’s triggered off.” Lured away by a wall-woman in the Beauty Room.</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Vitus Rosario</div>
+<div class="char-role">“A sort of great scientist” · Matamoros Chapter</div>
+<div class="char-desc">Husband of Caterina. He questions the reality of Emmet’s resort: “Where are we really, Mr. Emmet Briny?” He tries to throttle Carmody in Domdaniel: “I’ll throttle you, you livid monster!” and discovers his feet are fastened to the floor. He is lured away by a wall-woman offering “new commando tactics.” Caterina objects but concedes: “Oh, I suppose so, if you put it that way.”</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Frank Voigt</div>
+<div class="char-role">Matamoros Chapter</div>
+<div class="char-desc">“A solid man, he had been a fighter and later a fight promoter, and later a man with a lot of leisure and money.” He suspects the Boat People are “short-time projections” that will evaporate within thirty-six hours. He warns about the counterfeit gold. He is “a good knife-thrower” who “put myself through college with a knife-throwing and magic act.” He is among those lured away by Carmody’s wall-women.</div>
+</div>
+<div class="char-card" data-faction="matamoros">
+<div class="char-name">Denis Gouffre</div>
+<div class="char-role">Police agent on perpetual leave · Matamoros Chapter</div>
+<div class="char-desc">“A police agent forever on a leave of absence, but it is not sure that he qualified as a secret agent.” He “had done a three year term in the CIA and he was a leary man.” He warns: “be leary about trusting your double agent.” In Domdaniel, he gags at Carmody’s plague revelation (“Gah, this is horrible!”). His insult “You devil you bugger!” prompts Carmody’s etymologies of <em>devil</em> and <em>bugger</em>.</div>
+</div>
+<div class="char-card" data-faction="ocean">
+<div class="char-name">The Little Dolphin</div>
+<div class="char-role">Robert’s protégée · aspiring Secret Agent</div>
+<div class="char-desc">An unnamed young female dolphin who approaches Robert at St. Malo’s in chapter 15 and asks to become his apprentice. Her intelligence about the coronation and its jewel thieves restores his appetite for adventure. In Domdaniel she identifies the decoy Jewelry Whale, tracks the genuine donation, and reports the capture of the thieves. She steals Sullivan cigarettes and the rare lighter from Twenty-Three and offers to improve his security. She also seeks the Matamoros Chapter’s account, since its members find Robert too uppity. She is the novel’s last speaking character.</div>
+<div class="char-quote">“Pop heroes sometimes go pop, you know.”</div>
+</div>
+<div class="char-card" data-faction="domdaniel">
+<div class="char-name">The President (“Reddy Boy”)</div>
+<div class="char-role">President of the United States</div>
+<div class="char-desc">Edward Ephraim Whetstone, known to voters as “Reddy Boy.” He is at “Sea Haven, the Third White House,” in the oceanic domain, under Carmody’s influence. In Domdaniel, he enthusiastically suggests sadistic tortures for the prisoners: nettle guns, Aerial Eye Snakes, red fang fish, micro-wave brain-cookers. Carmody deflects each time: “Later, Reddy Boy, later.” Robert calls him on the phone; Carmody cuts the line: “Just one of my Imperial whims.”</div>
+</div>
+<div class="char-card" data-faction="other">
+<div class="char-name">Dan Asal</div>
+<div class="char-role">Purgatorial ghost · resident of St. Malo’s</div>
+<div class="char-desc">A leprous ghost and former pharmacist at St. Malo’s of the Ocean. He killed a man and died only partly repentant; the remorse pistol, pencil, and paper belong to his punishment. He could leave by writing a sincere apology, but repeatedly adds that he would do it again. His wife stays with him although she could go to her glory. His conversation and the apprentice dolphin’s arrival help Robert recover from his shame.</div>
+</div>
+<div class="char-card" data-faction="other">
+<div class="char-name">Whitefin Slackwater and Elroy Oldapple</div>
+<div class="char-role">Boat Person and freelance feature writer</div>
+<div class="char-desc">Whitefin Slackwater is the Boat Person interviewed by freelance feature writer Elroy Oldapple in chapter 13. Slackwater describes oceanic government, work, arts, religion, tourism, and corruption with cheerful evasiveness. Oldapple asks the questions and tests some of his claims. Their exchange includes the reply to “Are you a moral people?”: “Oh sure. Are you?”</div>
+</div>
+<div class="char-card" data-faction="other">
+<div class="char-name">The Tail</div>
+<div class="char-role">Boat Person · surveillance operative</div>
+<div class="char-desc">A Boat Person assigned to shadow Robert Dolphin. Self-described: “I’m a tail.” He orders roast dolphin’s nose at a poolside restaurant (“three kilos of it, well done”) while sitting next to Robert. He reveals the plague rumor is a planted manipulation. He follows Robert through three taxi changes and three disguise changes and is waiting in the dark basement: “What took you so long?” He brings Robert a daisy for the “she loves me / she loves me not” decision that sends Robert back to Domdaniel.</div>
+</div>
+<div class="char-card" data-faction="domdaniel">
+<div class="char-name">Emil</div>
+<div class="char-role">Manager · Dunes of Hell</div>
+<div class="char-desc">Emmet Briny’s major-domo at the resort. He manages the floor shows, instructs performers (“No blue stuff on the early show . . . There’s some Boat People here”), and reports that the Boat People are “paying with gold,” including “some pretty interesting gold”: Carthage pieces with the Flying Horse and a coin from the Bactrian king Eucratides.</div>
+</div>
+</div>
+</section>
+<!-- ──────────────────────────────────────────────────
+     ALLUSIONS & REFERENCES
+     ────────────────────────────────────────────────── -->
+<section class="content-section" id="section-allusions">
+<h2>Allusions &amp; References</h2>
+<div class="theme-card">
+<h4>“The Fair Hills of Eire, O!”: James Clarence Mangan</h4>
+<p>The title recalls James Clarence Mangan’s poem “The Fair Hills of Eire, O!” Mangan adapted an Irish poem by Donnchadh Ruadh Mac Con Mara. Lafferty cites its title in the chapter 11 epigraphs, then supplies a comic oceanic counterpart from the <em>Old Dory Song Book</em>. In that verse the hills of Ireland become “the hills of Ocean.” Mangan’s text and its publication history appear in the <a href="https://celt.ucc.ie/published/E840000-026.html" rel="noopener noreferrer" target="_blank">University College Cork edition</a>.</p>
+</div>
+<div class="theme-card">
+<h4>The Port-City Catalogs</h4>
+<p>The seven alphabetical port-city catalogs in chapter 1 run from Aalborg to Cuxhaven. They recall epic catalogs and litanies, while encounters at Amapala, Bankok, Blyth, Calcutta, Cebu, and Cuxhaven interrupt their rhythm. The lists establish the worldwide scale of the landings while the individual scenes show different local responses.</p>
+</div>
+<div class="theme-card">
+<h4>Domdaniel</h4>
+<p>Domdaniel is a traditional undersea haunt of evil magicians, used by Robert Southey in <em>Thalaba the Destroyer</em> and invoked by Thomas Carlyle in <em>Sartor Resartus</em>. Lafferty expands it into an imperial fortress with galleries, a throne room, dungeons, and machinery for directing events across the world. Twenty-Three calls it more than a million years old. Robert’s whistled name among its inhabitants is Wheecreoclessese.</p>
+</div>
+<div class="theme-card">
+<h4>Bunyan and St. John of the Cross</h4>
+<p>The title “Dark Night of Despond” combines language associated with St. John of the Cross’s <em>Dark Night of the Soul</em> and Bunyan’s Slough of Despond. The chapter explicitly recalls <em>The Pilgrim’s Progress</em>: “The name of the slough was Despond.” Robert is a living dolphin overcome by shame, visiting a settlement of purgatorial ghosts. Dan Asal, unlike Robert, is detained there for an unrepented killing.</p>
+</div>
+<div class="theme-card">
+<h4>Sullivan Cigarettes and Raffles</h4>
+<p>Sullivan cigarettes are a running motif: Robert’s fraudulently labeled packs, his elaborate nonchalance in lighting them, and the genuine cigarette that costs him the throne. Chapter 8 recalls the “palmy days of Raffles,” E. W. Hornung’s gentleman thief, who smoked Sullivans. In chapter 14, Twenty-Three says that manufacture ended a century earlier and the surviving stock passed to royalty. The allusion associates Robert’s secret-agent persona with Hornung’s gentleman thief.</p>
+</div>
+<div class="theme-card">
+<h4>The Ring of the Fisherman</h4>
+<p>The papal <em>Anulus Piscatoris</em> appears in the Slackwater interview (chap. 13) as an emblem of the Sea People’s connection to the Catholic tradition. “The non-oceanic Popes who also wear ‘The Ring of the Fisherman’ do it only by special grace and dispensation.” Slackwater claims Peter, Andrew, James, and John (“all those Galilean commercial fishermen”) were Sea People. Slackwater’s account takes the fisherman of the papal title literally.</p>
+</div>
+<div class="theme-card">
+<h4>Etymology: <em>Devil</em> / <em>Deva</em> / <em>God</em></h4>
+<p>In chapter 10, Carmody answers Denis’s insults by claiming that <em>devil</em> means <em>deva</em> and that <em>bugger</em> is related to <em>bog</em>, making both into names for God. The wordplay is self-serving. The English words have different histories: <a href="https://www.merriam-webster.com/dictionary/devil" rel="noopener noreferrer" target="_blank"><em>devil</em></a> comes through Latin from Greek <em>diabolos</em>, while <a href="https://www.merriam-webster.com/dictionary/bugger" rel="noopener noreferrer" target="_blank"><em>bugger</em></a> derives through French from a medieval Latin word for Bulgarian.</p>
+</div>
+<div class="theme-card">
+<h4><em>Pomp and Circumstance</em></h4>
+<p>Elgar’s march is played by “one thousand trumpets” in chapter 14 as Carmody Overlark departs through the Departures of Emperors door. A British imperial processional accompanies the exit of an ancient oceanic tyrant. Three fictional trumpet pieces mark the other events of the chapter: “Oh, Short Bright Reign” (for Robert’s abdication), “The Blade That Strikes by Night” (Twenty-Three’s election theme), and “Fish-Face, Fish-Face, How Far You Reach!” (the accession fanfare).</p>
+</div>
+<div class="theme-card">
+<h4>The Masterpieces of Death: Historical Figures</h4>
+<p>Carmody’s gallery (chaps. 9–10) relocates the deaths of historical figures to Domdaniel. Alexander Hamilton did not die at Weehawken; Beethoven survived 1827 by nine years before his head exploded; Raphael painted in the fortress for thirty-five years after his supposed death; and Galileo and Jeanne d’Arc were abducted there. Thirteen popes visited, and three did not return. The collection includes works attributed to artists from Praxiteles to Maxfield Parrish. Carmody says that each death depicted in the gallery took place there.</p>
+</div>
+<div class="theme-card">
+<h4>Carmody’s Historical Aliases</h4>
+<p>On the throne in chapter 12, Robert experiences Carmody’s memories of earlier identities, including Kar-im-Mod, a power behind Akhnaton; Khar-ibn-Mod, a Mameluke diplomat; and Haroun-al-Raschid. The convincing memories extend back roughly three thousand years, while earlier pseudo-memories lack the same detail. Carmody’s interventions on land have run alongside his rule in Domdaniel. Robert recognizes in them the same passion for secret agentry that drives his own career.</p>
+</div>
+<div class="theme-card">
+<h4>The Vikings and the Gypsies</h4>
+<p>The Boat People’s “Viking motif” in chapter 1 resembles the popular image of Vikings more than their historical appearance or behavior. In chapter 13, Slackwater claims a sea ancestry for the people the novel calls Gypsies: “Yes, originally they were Sea People, but now they’re mixed bloods.”</p>
+</div>
+<div class="theme-card">
+<h4>John’s Apocalypse: The Jewelry Whale</h4>
+<p>The final display of the Jewelry Whale invokes Revelation 21, where the New Jerusalem is adorned with precious stones. The narrator also recalls the toad’s “precious jewel in his head” from Shakespeare’s <em>As You Like It</em> (2.1.12–14). The echoes heighten the splendor of the treasure. The banquet at which it arrives is also the scene of theft and cannibalism.</p>
+</div>
+</section>
+<!-- ──────────────────────────────────────────────────
+     THEMES
+     ────────────────────────────────────────────────── -->
+<section class="content-section" id="section-themes">
+<h2>Themes</h2>
+<div class="theme-card">
+<h4>Ocean as Sovereign Intelligence</h4>
+<p>The opening’s “great and deep oceanic mind” belongs first to Robert Dolphin, as chapter 3 makes clear. Chapter 10 extends the image to his contest with Carmody and raises the possibility of a third rival in Twenty-Three. The Ocean also has a collective presence: its rumors, broadcasts, and voice carry information and call for aid to Robert in his despondency.</p>
+</div>
+<div class="theme-card">
+<h4>Disguise and Identity</h4>
+<p>Robert relies on material disguises; Carmody can change his own form. When Carmody becomes a more convincing Robert than Robert himself, the dolphin’s confidence in his identity falters. Counterfeit cigarette labels and the Sea People’s unnoticed presence on land extend the pattern.</p>
+</div>
+<div class="theme-card">
+<h4>Imperium and Abdication</h4>
+<p>The emperor of the World rules from Domdaniel with push-button access to plague, swarming, tidal waves, and the end of the world. But he is “getting about ready to abdicate,” looking for a “Grand Final gesture.” The palace revolution transfers control of the activators from Carmody to Twenty-Three without dismantling them. The title of chapter 14, “And for a Snipe a Throne Was Lost,” treats the transfer as comedy: Robert gives up the throne for a cigarette.</p>
+</div>
+<div class="theme-card">
+<h4>The Notion Mill</h4>
+<p>A Boat Person describes Domdaniel’s notion mill in chapter 5. Once it ground salt for the oceans; now it supplies extravagant notions to the world. He contrasts these notions with the rational thought that supposedly preceded the mill’s new use. The passage leaves open how far the mill produced the Boat People’s own decision to swarm.</p>
+</div>
+<div class="theme-card">
+<h4>Purgatory and Conscience</h4>
+<p>Robert reaches St. Malo’s alive, overwhelmed by the public humiliation of losing the throne. Dan Asal is a dead man whose remorse stops short of repentance. Dan can write that he is sorry, but adds that he would commit the killing again. His repeated failure makes the distinction between shame and contrition visible. Robert’s recovery comes through conversation, invention, and renewed involvement with another dolphin; Dan stays at St. Malo’s until his will changes.</p>
+</div>
+<div class="theme-card">
+<h4>The Conquest as Comedy</h4>
+<p>The Boat People seize most ports with simple weapons and overwhelming psychological force. The apparent ease of the conquest makes it difficult for the Committee to feel the urgency it recognizes intellectually. The comic manner extends to the killings in Calcutta and the plague threat. The invaders’ clumsiness and sociability make their power difficult to take seriously.</p>
+</div>
+</section>
+<!-- ──────────────────────────────────────────────────
+     EMBEDDED TEXTS
+     ────────────────────────────────────────────────── -->
+<section class="content-section" id="section-texts">
+<h2>Embedded Texts</h2>
+<div class="theme-card">
+<h4><em>Phooo</em>: Robert’s Opus</h4>
+<p>Robert first calls his projected work <em>Phooo</em> in chapter 4, then <em>Phooo, or The Memoirs of a Secret Agent</em> in chapter 6. Twenty-Three calls it <em>Phoco, or The Annals of a Secret Agent</em> in chapter 14. Robert writes on a whistle-activated typewriter at about a thousand words a minute. The final exchange identifies the novel with his completed memoirs and annals: “Did he really complete that astonishing body of work? Sure he did. This is it.”</p>
+</div>
+<div class="theme-card">
+<h4>Ocean Rumor / Poor Fishes’ Broadcast</h4>
+<p>Ocean Rumor is a news service available above and below the sea. The “Poor Fishes’ Broadcast,” also called the Ocean Network, carries Robert’s verses announcing his approach during chapter 11. Twenty-Three alternately complains about the broadcasts and tries to summon him through the same network. The verses include:</p>
+<blockquote>The Dolphin comes, the Dolphin comes!<br/>With Triton trump and Ocean drums.</blockquote>
+<blockquote>The Dolphin comes, all hail, all hail!<br/>Let Emperor and minion quail!</blockquote>
+<blockquote>The Dolphin comes. It’s he, it’s he!<br/>The hero from the Western Sea.</blockquote>
+<blockquote>I’ll come to you, I’ll come to ye,<br/>And be among you suddenly.</blockquote>
+</div>
+<div class="theme-card">
+<h4>The Chapter 11 Epigraphs</h4>
+<p>Chapter 11 opens with four quoted texts, the only group of epigraphs in the novel. They introduce the palace revolution in four registers: Irish lyric, comic sea verse, prophecy, and drama.</p>
+<blockquote>“The Fair Hills of Eire, O!” <cite>Song Title, James Clarence Mangan</cite></blockquote>
+<blockquote>The hills of Ocean skip like lambs,<br/>With curling coom and booms and swishes,<br/>More seething than intrigues of clams,<br/>More bumpy than the minds of fishes.<cite><em>Old Dory Song Book</em></cite></blockquote>
+<blockquote>When older King is overthrown<br/>A fish-face shall possess the throne.<br/>When Kharm-i-od is dumped or dead<br/>A fish-face shall be King instead. <cite>Nostradamus Dolphinus</cite></blockquote>
+<blockquote>“But a dolphin is not a fish.” “Not a fish, madam, no. But he’s a fish-face.” <cite><em>Palace Revolution, a Play in Nine Acts</em>, by the Tyrrhenian Tyrant</cite></blockquote>
+</div>
+<div class="theme-card">
+<h4>The Slackwater–Oldapple Interview (Chapter 13)</h4>
+<p>Following a short account of the departing boats, chapter 13 presents an interview between Elroy Oldapple and Whitefin Slackwater. Its thirty-six exchanges cover oceanic population, government, property, religion, art, and relations with land-dwellers. Slackwater explains how the boats are built from plankton and algae, praises Robert’s celebrity, and reports that the plague has been postponed by imperial edict. His closing estimate of Carmody’s age, no more than about two thousand years, conflicts with Carmody’s own claims.</p>
+</div>
+<div class="theme-card">
+<h4>The “Masterpieces of Death” Gallery</h4>
+<p>A twelve-sided gallery in Domdaniel holds more than three thousand paintings and sculptures of deaths said to have occurred there. The tour in chapters 9–10 rewrites the lives and deaths of Galileo, Jeanne d’Arc, Hamilton, Beethoven, Raphael, and others. The scene Carmody most covets is absent: the Devil’s eyewitness painting of the murder of Abel. A previous emperor stole it from hell but possessed it for only seven seconds. Carmody exhibits the depicted deaths as works of art and as evidence of his power.</p>
+</div>
+<div class="theme-card">
+<h4>The Throne Activators</h4>
+<p>The emperor’s throne in Domdaniel carries buttons and legend plates, some “picked out in jewels” and others “written in the fine hand of Carmody Overlark that was like engraving”: “Turn swarm on,” “Turn swarm off,” “Turn plague on,” “Turn plague off,” “Activate end of the world,” “Awaken the slumbering giants,” “Have the ice age return,” “Let the flood return,” “Awaken the slumbering heroes,” “Let Catastrophe come,” “Let Doomsday come,” and “Make Domdaniel Invisible.” Robert pushes “Turn Swarm Off” and “Turn Plague Off” during the revolution: “Oh, it’ll probably save the human world, if they mean what I think they mean.”</p>
+</div>
+<div class="theme-card">
+<h4>The Coronation Trumpet Pieces</h4>
+<p>Four named pieces punctuate the abdications and election in chapter 14, before the coronation banquet:</p>
+<p><em>Pomp and Circumstance</em>: Played at Carmody’s departure through the Departures of Emperors door.</p>
+<p>“Oh, Short Bright Reign”: Played for Robert Dolphin’s abdication, acknowledging his reign of minutes.</p>
+<p>“The Blade That Strikes by Night”: The new emperor Twenty-Three’s election theme. He “seemed a bit crestfallen, but he accepted it” as his ovation piece.</p>
+<p>“Fish-Face, Fish-Face, How Far You Reach!”: The “rousing royal tune” that follows Twenty-Three’s declaration as emperor.</p>
+</div>
+<div class="theme-card">
+<h4>Robert’s Purgatorial Lamentations (Chapter 15)</h4>
+<p>In purgatory, Robert expresses his self-pity in quotations from Scripture and Shakespeare:</p>
+<blockquote>I shall go softly all my years in the bitterness of my soul.<cite>Isaiah 38:15 (KJV)</cite></blockquote>
+<blockquote>Hard as a piece of the nether millstone. . . . He shall return no more to his house, neither shall his place know him any more. . . . The land of darkness and the shadow of death.<cite>Job 41:24; 7:10; 10:21 (KJV)</cite></blockquote>
+<blockquote>The expense of spirit in a waste of shame.<cite>Shakespeare, Sonnet 129, line 1</cite></blockquote>
+<blockquote>What? Must I hold a candle to my shame?<cite>Shakespeare, <em>The Merchant of Venice</em>, 2.6</cite></blockquote>
+<p>The Ocean Voice asks that the “soul-sick dolphin” be directed toward other creatures. The scriptural and dramatic quotations express Robert’s shame; Dan’s subsequent account introduces a distinct need for repentance.</p>
+</div>
+<div class="theme-card">
+<h4>The Fictional Secret-Agent Library</h4>
+<p>During the suicide-method dialogue in chapter 15, Robert and Dan Asal cite a series of fictional novels in which secret agents meet dramatic ends. The titles form a mock bibliography of the genre:</p>
+<p><em>The Ultimate Secret of the Secret Agent</em>, in which Horst Grell slashes his wrists. <em>The Green Lady’s Ransom</em>, in which Count Spencer-Fitzmorris cuts his throat. <em>Dames of Death</em>, in which Sid Secret dies. <em>Bait for Vultures</em>, in which Anthony Arbor dies. <em>To the Bitter-Sweet End</em>, in which Roderick Riddiechive dies (“Oh yes, Roderick had a lot of style”). Also referenced elsewhere: <em>What a Young Dolphin Boy Ought to Know</em> (a nonexistent book suggested by Margret), “The Day After Hell Got Full” (a “comic fable” by Furon Cassius), and the correspondence course “Now You Can Become a Secret Agent” (which cost Robert thirty-five dollars).</p>
+</div>
+<div class="theme-card">
+<h4>The Rose Card</h4>
+<p>Delivered by supersonic mini-car to Margret Kirkestol while she hangs by one hand on the invisible cliffs of the ninth wall (chapter 9), the card attached to Robert’s long-stemmed roses reads:</p>
+<blockquote>To my first love. Roses fade and die, but thorns are forever. Remember me with thorns, Robert Al-dolphin Liffy.</blockquote>
+<p>The thorns draw blood from Margret’s mouth as she accepts the roses while clinging to the cliff. The delivery pilot mentions that Carmody sends similar roses with the message “Roses and Death, from Carmody.” That is Carmody’s practice, distinct from Robert’s card to his first love.</p>
+</div>
+<div class="theme-card">
+<h4>The Boyhood Verse (Chapter 3)</h4>
+<p>Robert quotes G. K. Chesterton to describe his friendship with Twenty-Three:</p>
+<blockquote>He was, through boyhood’s storm and shower,<br/>My best, my nearest friend.<br/>We wore one hat, smoked one cigar,<br/>One standing at each end.</blockquote>
+<p>The stanza opens <a href="https://www.gutenberg.org/files/14706/14706-h/14706-h.htm" rel="noopener noreferrer" target="_blank">“A Dedication: To E. C. B.”</a> in Chesterton’s <em>Greybeards at Play</em> (1900). The comic verse suits Robert’s extravagant claim of friendship with Twenty-Three, who later outwits him.</p>
+</div>
+<div class="theme-card">
+<h4>Dan Asal’s Failed Apology</h4>
+<p>This recurring text keeps Dan Asal in purgatory. He must write “I’m sorry that I shot that guy” to be released. Each time he writes it, he adds a defiant postscript:</p>
+<blockquote>I’m sorry that I killed that guy—but I’d damnite do it again!</blockquote>
+<p>“Fire came down and destroyed that sheet of paper, but a new and unmarked sheet appeared in the place of it.” The pencil and paper always return. “It happens every time,” Dan says. “I spoil it every time.” The postscript cancels the apology; Dan can leave only when he writes the apology without it.</p>
+</div>
+<div class="theme-card">
+<h4>The Sullivan Exposé (Chapter 14)</h4>
+<p>Twenty-Three exposes the false Sullivan labels while Robert occupies the throne in chapter 14. He says manufacture ended a hundred years earlier and that the surviving stock went to royalty. He then offers a genuine cigarette, which Robert leaves the throne to retrieve, and demands the return of the rare lighter Robert had taken from him. The episode costs Robert the throne and shames him before the court.</p>
+</div>
+</section>
+<!-- ──────────────────────────────────────────────────
+     TIMELINE
+     ────────────────────────────────────────────────── -->
+<section class="content-section" id="section-timeline">
+<h2>Timeline</h2>
+<p>The action begins with the landings on June 13 and continues through the following day’s coronation. Land and ocean scenes overlap. Clock times stated in the novel are marked <span class="tl-firm">STATED</span>; other labels give relative sequence.</p>
+<h3 class="timeline-header">Day 1: June 13 · “First Fish Night”</h3>
+<div class="timeline-track">
+<div class="tl-event">
+<div class="tl-time">About 5:00 p.m. EST, by calculation</div>
+<div class="tl-chapters">chap. 1 · chap. 5 (“10:00 p.m. EST, five hours after the landing”)</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> The Boat People appear at ports around the world. Chapter 5’s report of 10:00 p.m. EST, five hours after the landings, supplies this approximate starting time. Three-quarters of ports fall within thirty minutes.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">Within the first hour</div>
+<div class="tl-chapters">chap. 2</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> The Matamoros Chapter assembles at the Dunes of Hell. The narrative introduces its thirteen members and describes the Devil’s Head that sometimes appears in the well.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">About ninety minutes after the landings</div>
+<div class="tl-chapters">chaps. 2–3</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> Robert arrives through the Devil’s Well and briefs the Committee. At supper, a Siemens Report says slaughter has occurred in five of the five hundred ports. Nearly two hours have then passed since the landings.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">Nearly two hours after the landings</div>
+<div class="tl-chapters">chap. 3</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> Oscar decides to take five members to Domdaniel within an hour, with Robert as guide.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">First evening; night during the flight</div>
+<div class="tl-chapters">chap. 4</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> Five humans and Robert travel by balloon. Jorge beats Robert at chess. Robert describes his whistle-activated typewriter and projected book <em>Phooo</em>.</div>
+</div>
+<div class="tl-event firm">
+<div class="tl-time">10:00 p.m. EST <span class="tl-firm">STATED</span></div>
+<div class="tl-chapters">chap. 5</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> Dunes of Hell. “10:00 p.m. EST, five hours after the landing of the Boat People on this June 13.” Giobbe monitors media satire. Nero reads <em>Contemporary Trade Opportunities</em>. Caterina reads Siemens Reports. Emmet declares the Fortune Wind. Boat Person interviewed: the emperor of Domdaniel, Ocean Rumor, “we get restless every few centuries.”</div>
+</div>
+<div class="tl-event firm">
+<div class="tl-time">10:15 p.m. <span class="tl-firm">STATED</span></div>
+<div class="tl-chapters">chap. 5</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> Throat-gills installed in the other eight members. Fifteen-second anesthesia. They descend through the Devil’s Well into “green darkness.”</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">About five hours after the landings</div>
+<div class="tl-chapters">chap. 4</div>
+<div class="tl-desc"><span class="tl-location ocean">Ocean</span> The balloon is torn open. The travelers descend twelve kilometers through the air and another kilometer into the ocean. Carmody confines the five humans in the Masterpieces of Death Room and Robert is taken to his typewriter.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">First night, before the escape</div>
+<div class="tl-chapters">chap. 6</div>
+<div class="tl-desc"><span class="tl-location ocean">Ocean</span> Domdaniel. Margret confronts Carmody. Agent Twenty-Three frees prisoners, installs throat-gills. Robert ordains Twenty-Three. <em>Phooo</em> titled. Carmody and President “Reddy Boy” arrive; sadistic suggestions deflected. Tyrrhenian Fish origins explained. “In an heroic age everything is possible.”</div>
+</div>
+<div class="tl-event firm">
+<div class="tl-time">Near 1:00 a.m., Domdaniel time <span class="tl-firm">STATED</span></div>
+<div class="tl-chapters">chap. 7</div>
+<div class="tl-desc"><span class="tl-location ocean">Ocean</span> Oscar says Domdaniel is three hours ahead of the home base. Robert guides the party through eight walls; Oscar whistles the escape songs. Margret kills nine Sea Mastiffs. Robert’s cape conceals his throat-gills, and his age is revealed as five.</div>
+</div>
+</div>
+<h3 class="timeline-header">Day 2: June 14 · “Second Fish Day”</h3>
+<div class="timeline-track">
+<div class="tl-event">
+<div class="tl-time">Half an hour before sunrise</div>
+<div class="tl-chapters">chap. 7</div>
+<div class="tl-desc"><span class="tl-location ocean">Ocean</span> Escape party surfaces: “We have climbed upward through the ‘sky.’” Robert departs via sky-shuttle on a “break-neck mission to save mankind.” Oscar leads the ninth-wall climb, whistling “Fair Ghost Invisible, I Long for Thee.”</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">Early morning</div>
+<div class="tl-chapters">chap. 8</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> Robert at World Medical Headquarters, New York: “still quite early in the morning of ‘Second Fish Day.’” Five disguises, all rejected. Phone calls: President (line cut by Carmody), Agent Twenty-Three, Emmet. Disease sample and vaccine coordinates transmitted. Roses ordered with “sharp-memory” thorns.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">During the morning</div>
+<div class="tl-chapters">chaps. 8–9</div>
+<div class="tl-desc"><span class="tl-location both">Land + Ocean</span> The Tail follows Robert through New York. Roses reach Margret on the invisible cliffs; the humans learn they are already outside the fortress and climb down. The second contingent is captured, and Twenty-Three calls the repeated scene “A damned replay!” Carmody begins the gallery tour and describes the absent painting of Abel’s murder.</div>
+</div>
+<div class="tl-event firm">
+<div class="tl-time">11:00 a.m., Domdaniel time <span class="tl-firm">STATED</span></div>
+<div class="tl-chapters">chap. 10</div>
+<div class="tl-desc"><span class="tl-location both">Land + Ocean</span> The narrative locates the origin of the hour in Domdaniel, thirty degrees west of Greenwich. Carmody describes the plague and continues his gallery tour. Meanwhile Robert struggles with his conscience in New York, plucks the Tail’s daisy, and orders a sky-taxi back.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">Within the hour before the revolution</div>
+<div class="tl-chapters">chap. 11</div>
+<div class="tl-desc"><span class="tl-location ocean">Ocean</span> Twenty-Three leads the gallery tour and bargains with the Committee. Seven men leave with the women in the Beauty Room. Caterina joins his council. The chapter ends twenty-one minutes before the planned revolution, with the plague due fifteen minutes after that.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">After the preparations in chapter 11</div>
+<div class="tl-chapters">chap. 12</div>
+<div class="tl-desc"><span class="tl-location ocean">Ocean</span> Carmody impersonates Robert; Robert then impersonates Carmody. Robert reaches the throne, turns off the swarm and plague, and abdicates in Carmody’s guise when the revolutionaries arrive.</div>
+</div>
+<div class="tl-event firm">
+<div class="tl-time">About noon <span class="tl-firm">STATED</span></div>
+<div class="tl-chapters">chap. 13</div>
+<div class="tl-desc"><span class="tl-location land">Land</span> “About noon of ‘Second Fish Day.’” Slackwater–Oldapple interview: thirty-six exchanges covering Sea People civilization. Boat People building new boats, preparing to leave after “less than twenty-four hours on the land.”</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">After Robert’s first abdication</div>
+<div class="tl-chapters">chap. 14</div>
+<div class="tl-desc"><span class="tl-location ocean">Ocean</span> Carmody returns to his own form, and Margret defends him. He departs in state before Twenty-Three tricks Robert off the throne. Twenty-Three acknowledges Robert as the 288th emperor and declares himself the 289th. The coronation is announced for nine hours later.</div>
+</div>
+<div class="tl-event">
+<div class="tl-time">After Robert leaves Domdaniel</div>
+<div class="tl-chapters">chap. 15</div>
+<div class="tl-desc"><span class="tl-location purgatory">Purgatory</span> Robert in purgatorial waters. St. Malo’s of the Ocean. Dan Asal: leprous ghost, remorse pistol, pharmacist’s expertise. The extended suicide comedy: wrists, throat, defenestration, poison, pistol. “Gyroscopic Whistle Boogie.” The little dolphin arrives with coronation intelligence. Dan’s failed apology: “but I’d damnite do it again!” Robert and the little dolphin depart for Domdaniel.</div>
+</div>
+<div class="tl-event firm">
+<div class="tl-time">Nine hours after the election announcement <span class="tl-firm">STATED</span></div>
+<div class="tl-chapters">chap. 16</div>
+<div class="tl-desc"><span class="tl-location ocean">Ocean</span> At the coronation, Carmody and Margret operate as secret agents. A decoy Jewelry Whale is barbecued; the genuine donation arrives with ten thousand jewels missing. The young dolphin resolves the case, steals Twenty-Three’s cigarettes and lighter, and pursues new clients. Robert returns to his memoirs.</div>
+</div>
+</div>
+<div class="tl-problems">
+<h3>Timeline Anomalies</h3>
+<p><strong>Cubical time.</strong> Robert swam three and a half days to reach Matamoros, but the landings happened less than an hour and a half before his arrival. He invokes “cubical time”: “You have flat time. We have a touch of cubical time.” Whether this is a genuine supernatural property of dolphins or Lafferty’s deliberate flouting of causality is left unresolved.</p>
+<p><strong>Robert’s transit.</strong> Robert travels from mid-Atlantic (dawn) to New York City (early morning, same day). The text explains this by invoking Carmody’s sky-shuttle, which “sped him on his treacherous way.”</p>
+<p><strong>Landing time.</strong> Chapter 5 gives 10:00 p.m. EST as five hours after the landings. Chapter 1 also describes simultaneous arrivals at different local times, including night at Cebu. These descriptions do not establish a fully consistent worldwide clock.</p>
+<p><strong>Domdaniel time.</strong> Chapter 7 places the fortress three hours ahead of the Matamoros home base. Chapter 10 places its meridian thirty degrees west of Greenwich and imagines every minute originating there. The geography and personified time belong to the novel’s oceanic cosmology.</p>
+</div>
+</section>
+<!-- ──────────────────────────────────────────────────
+     GLOSSARY
+     ────────────────────────────────────────────────── -->
+<section class="content-section" id="section-glossary">
+<h2>Glossary</h2>
+<input aria-label="Search the glossary" class="glossary-search" placeholder="Search glossary…" type="text"/>
+<div class="glossary-alpha-nav" id="alphaNav"></div>
+<div id="glossaryEntries">
+<!-- COMPLETE GLOSSARY: ~90 entries, alphabetical, verified against text -->
+<div class="ug-entry" data-letter="A">
+<span class="ug-headword">Accelerated-modern</span>
+<div class="ug-context">A neologism from <em>Contemporary Trade Opportunities</em> for the new economic era created by the Boat People’s arrival. “Modern (‘accelerated-modern’ is the new term) technology should be equal to the challenge.”</div>
+</div><div class="ug-entry" data-letter="A">
+<span class="ug-headword">Agent Twenty-Three</span> <span class="ug-lang">title</span>
+<div class="ug-context">A Tyrrhenian Fish, Robert’s closest friend, and Carmody’s right hand. He serves as slave and secret agent, organizes the palace revolution, and succeeds Robert as the 289th emperor. Robert is Secret Agent Number One.</div>
+</div><div class="ug-entry" data-letter="A">
+<span class="ug-headword">Algae number nine</span>
+<div class="ug-context">A “come-all-ye solvent” used with plankton-lure on a framework of boards and driftwood. Microscopic organisms accrete to the framework and form the Boat People’s blue-gray-green boats. Slackwater describes the process in chapter 13.</div>
+</div><div class="ug-entry" data-letter="A">
+<span class="ug-headword"><em>Attar</em></span>
+<div class="ug-context">A fragrant essential oil. Robert orders roses with “their odor attar-reinforced.” The English word comes through Persian from Arabic <em>ʿiṭr</em>, meaning perfume or essence.</div>
+</div><div class="ug-entry" data-letter="A">
+<span class="ug-headword">Aureus</span>
+<div class="ug-context">A Roman gold coin. Emmet Briny finds “quite a few aureus gold pieces circulated by the Emperor Marcus Aurelius” among the ancient coinage at the Dunes of Hell. The plural is <em>aurei</em>.</div>
+</div><div class="ug-entry" data-letter="B">
+<span class="ug-headword">Bactrian</span>
+<div class="ug-context">Of or relating to Bactria, an ancient region of Central Asia. A gold coin “issued by the Bactrian King Eucratides” appears in the ancient coinage at the Dunes of Hell. Eucratides I issued the largest gold coin of antiquity.</div>
+</div><div class="ug-entry" data-letter="B">
+<span class="ug-headword">Beauty-To-Make-The-Blood-Pound-By Room</span>
+<div class="ug-context">A gallery in Domdaniel containing images of human women and living women placed among them. Twenty-Three calls it “probably the least artworthy” of the major galleries. The seven men in the second Committee party are drawn away by its occupants, leaving Caterina to replace Emmet on the provisional council.</div>
+</div><div class="ug-entry" data-letter="B">
+<span class="ug-headword">Boat People</span>
+<div class="ug-context">Approximately fifty million burlap-skinned, carrot-haired arrivals who appear simultaneously at every port city in the world: about three hundred boats with three hundred people each at roughly five hundred ports. They carry daggers, bolos, and pikes but no firearms. One-tenth do the talking; the rest take turns. They glow with about one candle-power of light. Their boats are flimsy, three-decked, and appear to be made of still-living material. They are the Sea People who come ashore in the swarming.</div>
+</div><div class="ug-entry" data-letter="B">
+<span class="ug-headword">Boat People Disease</span>
+<div class="ug-context">A plague the emperor can activate via the throne activators in Domdaniel. Robert Dolphin warns World Medical Headquarters about it on “Second Fish Day.” Later “postponed”: “just been scrubbed by imperial edict, push-button division.”</div>
+</div><div class="ug-entry" data-letter="B">
+<span class="ug-headword">Bureaucrats of the Ocean</span>
+<div class="ug-context">Slackwater’s designation for the Tyrrhenian People and Tyrrhenian Fish, whom he describes as managerial races. Twenty-Three is a Tyrrhenian Fish.</div>
+</div><div class="ug-entry" data-letter="C">
+<span class="ug-headword">Cockle shells</span>
+<div class="ug-context">Used as short skis by the red-bearded Boat Person who arrives at Bankok. The shore people invite him to their water-ski regatta and joke that he should win the cockle-shell division.</div>
+</div><div class="ug-entry" data-letter="C">
+<span class="ug-headword"><em>Contemporary Trade Opportunities</em></span>
+<div class="ug-context">A periodical monitored by Nero Altomare for commercial developments arising from the Boat People’s arrival. It publishes tips for trading with the “Fish People,” promotes the “Rapidity School of Languages,” and advertises “Fast Fish Special” courses. It “has taken the lead” in the new oceanic commerce.</div>
+</div><div class="ug-entry" data-letter="C">
+<span class="ug-headword">Custodian of the keys</span>
+<div class="ug-context">A former army buck sergeant who could unlock every door at the Pentagon. In the chapter 5 news roundup, he has become one of six newly appointed six-star generals issuing orders during the occupation.</div>
+</div><div class="ug-entry" data-letter="D">
+<span class="ug-headword">Departures of Emperors</span>
+<div class="ug-context">A “secret and huge door” in Domdaniel “used only for the ‘Departures of Emperors’ and never twice in the same century.” Carmody Overlark exits through it after his deposition.</div>
+</div><div class="ug-entry" data-letter="D">
+<span class="ug-headword">Devil’s Head</span>
+<div class="ug-context">An apparition that manifests in and around the Devil’s Well at the Dunes of Hell resort. “The Devil’s-Head effect was obtained. (It wasn’t an effect! it was real.)” It has one malevolent eye and a murderous voice. The narrator insists that the apparition is real.</div>
+</div><div class="ug-entry" data-letter="D">
+<span class="ug-headword">Devil’s Well</span>
+<div class="ug-context">A huge well at Emmet Briny’s resort that “bubbled up partly inside and partly outside the palace-like main building.” Connected by deep channels to both the Rio Grande and the Gulf of Mexico. Any kind of fish can be caught from it: “red snapper, sail fish, barracuda, channel catfish, ocean mackerel, octopus.” Robert Dolphin enters and exits through it.</div>
+</div><div class="ug-entry" data-letter="D">
+<span class="ug-headword">Dolphin locks</span>
+<div class="ug-context">An entrance mechanism in Domdaniel through which dolphins can enter the palace from the ocean. The little dolphin “descended into the palace by the ‘dolphin locks,’ and joined the intrigue.”</div>
+</div><div class="ug-entry" data-letter="D">
+<span class="ug-headword">Domdaniel</span>
+<div class="ug-context">The oceanic fortress-palace of the emperor of the World, located in the middle of the Ocean. Surrounded by the Nine Iron Walls. Contains the throne room with eschatological activators, the “Masterpieces of Death” gallery, the Jewelry Whale, multiple art galleries, and the notion mill. In literary tradition, a fabled undersea hall of evil spirits beneath Tunis, referenced in Southey’s <em>Thalaba the Destroyer</em> and Carlyle’s <em>Sartor Resartus</em>. Also called “the Holy Empire of Domdaniel.” Robert’s oceanic name is Wheecreoclessese.</div>
+</div><div class="ug-entry" data-letter="D">
+<span class="ug-headword">Dragons-teeth soldiers</span>
+<div class="ug-context">Carmody’s throne-room guards, with mechanical components and a name recalling the warriors sprung from sown dragon’s teeth in Greek myth. Revolutionaries kill most of them while Robert sits disguised on the throne. Robert reflects that replacements can be harvested from the field where the teeth were sown.</div>
+</div><div class="ug-entry" data-letter="D">
+<span class="ug-headword">“Drowned Men’s Rag”</span> <span class="ug-lang">composition</span>
+<div class="ug-context">One of the pieces Oscar Judgement whistles while leading the underwater escape. The narrator says it “should be in the repertoire of every whistler” (chapter 7).</div>
+</div><div class="ug-entry" data-letter="D">
+<span class="ug-headword">Dunes of Hell</span>
+<div class="ug-context">Emmet Briny’s resort-hotel, restaurant, nightclub, and casino, located on barren land between Matamoros and the Rio Grande near the Gulf of Mexico. Meeting place of the Matamoros Chapter. Features the Devil’s Well, copper-gleaming kitchens, floor shows, and a gambling trade from both sides of the border. “It was natural desert there; and the big river, even when it flowed bank-full of water, did not alleviate the desert.”</div>
+</div><div class="ug-entry" data-letter="E">
+<span class="ug-headword">Emperor of the World</span> <span class="ug-lang">title</span>
+<div class="ug-context">Carmody Overlark’s principal title. The emperor rules from Domdaniel with push-button access to plague, swarming, tidal waves, and the end of the world. His other titles include the Most Noble Tyrrhenian Tyrant, Slave and Mameluke emperor, and Master of Galleries. He is “getting about ready to abdicate.”</div>
+</div><div class="ug-entry" data-letter="E">
+<span class="ug-headword">Exarch of Sharks</span> <span class="ug-lang">title</span>
+<div class="ug-context">One of Twenty-Three’s imperial titles, listed during his accession and again at the coronation.</div>
+</div><div class="ug-entry" data-letter="F">
+<span class="ug-headword">“Fair Ghost Invisible, I Long for Thee”</span> <span class="ug-lang">hymn</span>
+<div class="ug-context">An old hymn Oscar Judgement whistles as he leads the humans up the invisible ninth-wall cliffs after Robert’s departure (chapter 7).</div>
+</div><div class="ug-entry" data-letter="F">
+<span class="ug-headword">Fifth Reich</span>
+<div class="ug-context">The political entity governing Cuxhaven in the novel’s world. Cuxhaven has “a regular army base, a regular naval shore-trooper base, a special army base, a commando base” under the Fifth Reich, implying a future German state beyond the historical Third Reich.</div>
+</div><div class="ug-entry" data-letter="F">
+<span class="ug-headword">First Fish Night</span>
+<div class="ug-context">The evening of June 13, the first night of commercial contact between the dry-land world and the Boat People. Marked by trading ferment, new-experience salons, the “Rapidity School of Languages,” and hit songs. “What was already popularly called ‘First Fish Night.’”</div>
+</div><div class="ug-entry" data-letter="F">
+<span class="ug-headword">Fish People</span>
+<div class="ug-context">Colloquial dry-land term for the Boat People and/or Sea People. “The Dry Landers have been calling the Boat People ‘Fish’ for the last half hour, and they say they know fish when they smell them.” Commercial reports use it for the new markets opened by the landings.</div>
+</div><div class="ug-entry" data-letter="F">
+<span class="ug-headword">Fish-Faced Emperor</span> <span class="ug-lang">title</span>
+<div class="ug-context">The popular title of Twenty-Three after he becomes the 289th emperor. Robert’s seven-minute reign immediately precedes his.</div>
+</div><div class="ug-entry" data-letter="F">
+<span class="ug-headword">Flying People</span>
+<div class="ug-context">A people mentioned by Slackwater alongside the Sea People and the Land People. “The Flyers are shy about being seen, and we’re not.” Slackwater does not elaborate.</div>
+</div><div class="ug-entry" data-letter="F">
+<span class="ug-headword">Fortune Wind</span>
+<div class="ug-context">Emmet’s name for the burst of commercial opportunity that follows the Boat People’s arrival. “The Fortune Wind is blowing. It’s been blowing ever since the Boats came to shore.” Emmet Briny and others rush to mint gold coins and exploit trading opportunities before it subsides.</div>
+</div><div class="ug-entry" data-letter="F">
+<span class="ug-headword">Friend of Sea People and Dolphins</span> <span class="ug-lang">title</span>
+<div class="ug-context">One of Twenty-Three’s formal titles, included in the declaration of his accession and the expanded title chain at the coronation.</div>
+</div><div class="ug-entry" data-letter="G">
+<span class="ug-headword">Ghost Boats</span>
+<div class="ug-context">An older name for the Boat People’s craft. “In calling their craft ‘Ghost Boats’ the old observers were more than half right.” The phrase implies that the boats, and perhaps the Boat People, have appeared before in history and been misidentified.</div>
+</div><div class="ug-entry" data-letter="G">
+<span class="ug-headword">Golden Room</span>
+<div class="ug-context">Domdaniel’s gallery of finely hammered gold statues representing creatures considered mythological on land. Twenty-Three conducts the tour in chapter 11. Some statues are translucent; others float in the electrically charged air. Casualties of factional fighting lie on the floor.</div>
+</div><div class="ug-entry" data-letter="G">
+<span class="ug-headword">Green darkness</span>
+<div class="ug-context">The luminous darkness of the underwater world. During the Committee’s first swim, living creatures and seaweeds give off light, and broken moonlight filters down from the surface (chapter 5).</div>
+</div><div class="ug-entry" data-letter="G">
+<span class="ug-headword">Gules</span>
+<div class="ug-context">The heraldic term for red. Twenty-Three imagines fallen secret agents with “their blood running out in rivulets of ‘gules’ or heraldic red” (chapter 14).</div>
+</div><div class="ug-entry" data-letter="G">
+<span class="ug-headword">“Gyroscopic Whistle Boogie”</span> <span class="ug-lang">composition</span>
+<div class="ug-context">The tune Robert proposes as the signal for his invented pistol during the St. Malo’s episode. His enthusiasm for the invention helps turn his despair back toward activity (chapter 15).</div>
+</div><div class="ug-entry" data-letter="I">
+<span class="ug-headword">Informal Committee</span>
+<div class="ug-context">The Informal Committee for Advising Directors of Corporations and Nations. About one hundred chapters in thirty countries, loosely linked. Motto: “Save the World first of All. It will not matter if it is saved clumsily. And it will not matter if it is saved severally by each of a hundred different chapters. The world cannot have too much saving.”</div>
+</div><div class="ug-entry" data-letter="I">
+<span class="ug-headword">Inter-Species Studies</span>
+<div class="ug-context">Programs in which intelligent members of different species learn together. Robert attended Mexican and U.S. programs, including Harvard; Twenty-Three studied with him. Robert later names the Roy Mitsyas School of Interspecies Studies. His Harvard attendance was brief, and Twenty-Three says his verse got him failed out.</div>
+</div><div class="ug-entry" data-letter="I">
+<span class="ug-headword">Inverness cape</span>
+<div class="ug-context">Robert’s characteristic cloak, resembling an Inverness cape. During the escape, it conceals his artificial throat-gills. He retains it beneath several of his disguises.</div>
+</div><div class="ug-entry" data-letter="I">
+<span class="ug-headword">Invisible People</span>
+<div class="ug-context">The Sea People’s self-description. “We Sea People have always been the ‘Invisible People.’ We have been seen thousands and millions of times” but are consistently unrecognized. “Somebody will bump into me and then say ‘What in the world! I didn’t see you standing there!’” Their invisibility is a matter of perception: people on land fail to register them.</div>
+</div><div class="ug-entry" data-letter="I">
+<span class="ug-headword">Islands of Bones</span>
+<div class="ug-context">Remote burial grounds of the Sea People, compared to elephant graveyards. Carmody says that Breton fishermen knew about them before Columbus and that other accidental visitors were terrified by the ghosts. The Sea People’s habit of burying their dead helps account for the scarcity of their bodies on land.</div>
+</div><div class="ug-entry" data-letter="J">
+<span class="ug-headword">Jewelry Whale</span>
+<div class="ug-context">A hollowed sperm whale filled with jewels, sent to the new emperor by Emperor Shaktu of Djauhar-Laut. A decoy containing imitation jewels and hidden jewel thieves is mistakenly barbecued. The genuine whale reaches the Grand Piscina, missing the ten thousand small pieces taken by Carmody and Margret.</div>
+</div><div class="ug-entry" data-letter="K">
+<span class="ug-headword">Karachi Kartel</span>
+<div class="ug-context">A group of six hundred jewel thieves expected at the coronation. Three hide in the decoy Jewelry Whale and are baked with it. The little dolphin later reports that hundreds of thieves have been captured.</div>
+</div><div class="ug-entry" data-letter="K">
+<span class="ug-headword">Karachi Men</span>
+<div class="ug-context">In the Domdaniel court, a culinary term: persons from Karachi served as food. The Seneschal of the Kitchens identifies the banquet dish: “It’s man, Karachi Man. . . . How could anyone ever forget that taste?” Lafferty presents the cannibalism with the deadpan he uses for the killings at Calcutta.</div>
+</div><div class="ug-entry" data-letter="L">
+<span class="ug-headword">Lightning and Iron</span>
+<div class="ug-context">The military defense system at Cuxhaven under the Fifth Reich: “It had ‘Lightning and Iron’ defenses both interior and exterior.” The forces “began to shake and tremble when they came within the influence of the corporate aura of the Boat People.” Modern defenses prove useless against the Boat People’s psychological force.</div>
+</div><div class="ug-entry" data-letter="L">
+<span class="ug-headword">Limited Edition Lighter</span>
+<div class="ug-context">A special lighter “of which there are only eight in the world,” carried by Robert Dolphin as part of his secret agent persona. He uses it to light his Sullivan cigarettes with studied nonchalance. The little dolphin eventually steals it.</div>
+</div><div class="ug-entry" data-letter="M">
+<span class="ug-headword">Masterpieces of Death</span>
+<div class="ug-context">A twelve-sided room in Domdaniel with over three thousand paintings and living-color sculptures of famous deaths, all of which occurred in this room. Also called the “Deaths of Famous Persons” gallery. Carmody serves as docent. “These vivid deaths (but <em>vivid</em> means <em>alive</em>, these <em>alive deaths</em>).” Carmody presents the works as records of deaths that occurred before the artists.</div>
+</div><div class="ug-entry" data-letter="M">
+<span class="ug-headword">Matamoros Chapter</span>
+<div class="ug-context">The central group of the Informal Committee for Advising Directors of Corporations and Nations. Its thirteen members come from Mexico, the United States, the Catalonian Republic, Sierra Leone, Italy, Ireland, Turkey, Norway, San Simeon, and the Jolly Rogers Floating Realm of Practicing Pirates. They meet at Emmet Briny’s Dunes of Hell resort.</div>
+</div><div class="ug-entry" data-letter="M">
+<span class="ug-headword">Mile Down Ride-In Cinema</span>
+<div class="ug-context">An underwater cinema where films assembled from hidden-camera footage of Robert’s adventures are shown. Slackwater recommends it to Oldapple in chapter 13.</div>
+</div><div class="ug-entry" data-letter="M">
+<span class="ug-headword">Morphic</span>
+<div class="ug-context">A being able to change its own form. Carmody becomes a convincing Robert Dolphin, then changes back without removing a material disguise. Robert, by contrast, uses a costume to impersonate Carmody.</div>
+</div><div class="ug-entry" data-letter="N">
+<span class="ug-headword">“Nile Down Meander”</span> <span class="ug-lang">composition</span>
+<div class="ug-context">A ragtime piece Oscar Judgement whistles during the underwater escape. The party’s throat-gills permit them to sing and whistle together (chapter 7).</div>
+</div><div class="ug-entry" data-letter="N">
+<span class="ug-headword">Nine Iron Walls</span>
+<div class="ug-context">The concentric defenses of Domdaniel. Robert guides the first Committee party through eight underwater walls. The ninth consists of invisible cliffs rising above the sea. The humans climb them after surfacing, but a delivery pilot reveals that they were already outside the fortress.</div>
+</div><div class="ug-entry" data-letter="N">
+<span class="ug-headword">Noble Nabob Twenty-Three</span> <span class="ug-lang">title</span>
+<div class="ug-context">An honorific for the Tyrrhenian Fish who becomes emperor. Robert returns the rare lighter to him during the confrontation over the throne (chapter 14).</div>
+</div><div class="ug-entry" data-letter="N">
+<span class="ug-headword">Notion mill</span>
+<div class="ug-context">The mill in Domdaniel that once ground salt for the oceans and now, a Boat Person says, grinds out notions for the world. Its products are contrasted with rational thought. The account leaves open whether it supplied the impulse for the latest swarming.</div>
+</div><div class="ug-entry" data-letter="N">
+<span class="ug-headword">Novelty enjoyment spans</span>
+<div class="ug-context">The Boat People’s taste for elaborate things that vanish as soon as they tire of them. <em>Contemporary Trade Opportunities</em> encourages manufacturers to supply this market; the periodical evaporates explosively when the next edition is due (chapter 5).</div>
+</div><div class="ug-entry" data-letter="O">
+<span class="ug-headword">Ocean Rumor</span>
+<div class="ug-context">An oceanic news service also available on land. A Boat Person calls it “like Siemens Reports, only farther-reaching and more accurate.” It circulates news of Robert’s despair and runs seventeen minutes behind during the coronation.</div>
+</div><div class="ug-entry" data-letter="O">
+<span class="ug-headword">Oceanic Graphics Room</span>
+<div class="ug-context">A gallery visited under Twenty-Three’s guidance in chapter 11. Its clear water and lighting make the pictures almost indistinguishable from the windows overlooking Domdaniel’s submarine gardens.</div>
+</div><div class="ug-entry" data-letter="O">
+<span class="ug-headword"><em>Old Dory Song Book</em></span>
+<div class="ug-context">The source named for the four-line oceanic verse in the chapter 11 epigraphs, beginning “The hills of Ocean skip like lambs.”</div>
+</div><div class="ug-entry" data-letter="O">
+<span class="ug-headword">Olympus</span>
+<div class="ug-context">The mythic home of the Greek gods becomes a name for the novel’s privileged “high life.” After leaving Domdaniel, Carmody and Margret occupy an invisible fragment of Olympus above the coronation banquet. Margret says its ledges can be placed wherever they wish because Olympus is a state of mind.</div>
+</div><div class="ug-entry" data-letter="P">
+<span class="ug-headword">Palace Cruelty</span>
+<div class="ug-context">The conspicuous violence expected on a new ruler’s takeover day. Twenty-Three says that he and his party will have to observe the tradition if they win.</div>
+</div><div class="ug-entry" data-letter="P">
+<span class="ug-headword">Palace revolution</span>
+<div class="ug-context">Twenty-Three’s plan to depose Carmody. It involves an armed uprising and a substitute emperor who can publicly abdicate in Carmody’s place. Robert supplies the disguise, switches off the plague, and briefly reigns himself before Twenty-Three tricks him out of the throne.</div>
+</div><div class="ug-entry" data-letter="P">
+<span class="ug-headword"><em>Phooo</em></span>
+<div class="ug-context">Robert first calls his projected work <em>Phooo</em> in chapter 4, then <em>Phooo, or The Memoirs of a Secret Agent</em> in chapter 6. Twenty-Three calls it <em>Phoco, or The Annals of a Secret Agent</em> in chapter 14. Robert writes on a whistle-activated typewriter at about a thousand words a minute. The final exchange identifies the novel with his completed memoirs and annals: “Did he really complete that astonishing body of work? Sure he did. This is it.”</div>
+</div><div class="ug-entry" data-letter="P">
+<span class="ug-headword">Poor Fishes’ Broadcast</span>
+<div class="ug-context">Robert’s verse broadcasts over the Ocean Network during chapter 11. They proclaim his imminent arrival, irritating Twenty-Three, who needs him back in Domdaniel for the revolution.</div>
+</div><div class="ug-entry" data-letter="P">
+<span class="ug-headword">Princes of the Extreme Depths</span>
+<div class="ug-context">Deep-ocean beings among the coronation guests, so strange that Robert can hardly comprehend their forms. As a surface-dwelling dolphin, he feels kinship with the upper tenth of oceanic life rather than these creatures of the lower depths (chapter 16).</div>
+</div><div class="ug-entry" data-letter="R">
+<span class="ug-headword">Raffles</span>
+<div class="ug-context">A. J. Raffles, the fictional gentleman-thief created by E. W. Hornung (1899). Robert’s Sullivan cigarettes evoke “the palmy days of Raffles” and “the great gentleman Crook Raffles.” The allusion associates Robert’s secret-agent persona with Hornung’s gentleman criminal.</div>
+</div><div class="ug-entry" data-letter="R">
+<span class="ug-headword">Remorse pistol</span>
+<div class="ug-context">Dan Asal’s gun at St. Malo’s. It returns when discarded and reloads when emptied, reminding him of the killing for which he is still only partly repentant. Robert’s attempts to use it on himself fail.</div>
+</div><div class="ug-entry" data-letter="R">
+<span class="ug-headword">Ring of the Fisherman</span>
+<div class="ug-context">The papal <em>Anulus Piscatoris</em>, revealed in the Slackwater interview to be properly a Sea Person’s emblem. “The non-oceanic Popes who also wear ‘The Ring of the Fisherman’ do it only by special grace and dispensation.” Slackwater says that the Ring “always identifies a Sea Person,” taking the fisherman of the papal title literally.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Schism Room of Subliminal Art</span>
+<div class="ug-context">A Domdaniel gallery in which each painting and sculpture is unevenly divided into two pieces. Twenty-Three describes it but turns the party toward the Beauty Room instead (chapter 11).</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Sea Cattle</span>
+<div class="ug-context">Carmody’s term for the Boat People. He says that they are easily produced and sent swarming when their numbers become too great or when he wishes. The livestock metaphor presents them as a population bred and deployed by the rulers of the depths.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Sea Haven / Ocean Eden</span>
+<div class="ug-context">Alternate names for the oceanic realm or for Carmody’s palace. “I spend almost all of my time here in ‘Sea Haven’ as some of my associates call it. Others call it ‘Ocean Eden.’ There are dozens of other names for my place.” Also used for the “Third White House,” the president’s secret oceanic retreat.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Sea People</span>
+<div class="ug-context">The underwater human populations of which the Boat People are the swarming contingent. They can breathe air and water and often live unnoticed on land. Slackwater describes their government, customs, arts, and relations with the emperor in chapter 13.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Second Fish Day</span>
+<div class="ug-context">The day after First Fish Night, when Robert Dolphin makes his trip to World Medical Headquarters in New York to warn about Boat People Disease. “It was still quite early in the morning of ‘Second Fish Day.’” The names (“First Fish Night,” “Second Fish Day”) count time from the Boat People’s arrival.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Secret Agent One-Plus</span> <span class="ug-lang">title</span>
+<div class="ug-context">Carmody’s secret-agent identity at the coronation. Its rank exceeds Robert’s Number One. Carmody reads Robert’s thoughts and, with Margret, takes ten thousand jewels from the genuine Jewelry Whale.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Seneschal of the Kitchens</span> <span class="ug-lang">title</span>
+<div class="ug-context">A court functionary in Domdaniel responsible for preparing meals, including the Karachi Men baked in the Jewelry Whale. “It’s man, Karachi Man,” the Seneschal explains. He regrets that “one of the three has disappeared.”</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Seneschal of the Whale</span> <span class="ug-lang">title</span>
+<div class="ug-context">A court functionary in charge of the Jewelry Whale. His plan involves disguising himself as one of the towing dolphins and maneuvering the whale during the coronation. Part of the elaborate Domdaniel court hierarchy.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Sharp-memory thorns</span>
+<div class="ug-context">The large “sharp-memory” thorns on Robert’s roses for Margret. The card distinguishes their lasting hurt from the flowers’ fading beauty: “Roses fade and die, but thorns are forever.”</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Siemens Reports</span>
+<div class="ug-context">A news and intelligence service followed by the Matamoros Chapter. Its reports cover the landings, the occupations, commercial developments, synthetic throat-gills, and rumors of the plague. Esther carries a miniature receiver.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Spirits of the Deep</span>
+<div class="ug-context">Robert Dolphin’s code name for the oceanic powers he serves. “You people I call them by the code name ‘Spirits of the Deep.’ Or else I call them nothing at all.” Also used by Carmody: the Boat People are “the ‘Sea Cattle’ of the ‘Spirits of the Deep.’”</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">St. Malo’s</span>
+<div class="ug-context">A purgatorial settlement in the ocean where Robert Dolphin finds himself during his “Dark Night of Despond.” Its “splintered shore” is inhabited by purgatorial persons, including Dan Asal. The name recalls Saint-Malo, the Breton port.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Sullivan cigarettes</span>
+<div class="ug-context">Robert Dolphin’s signature prop. He has a novelty printer make Sullivan logos for ordinary cigarettes. The brand recalls the gentleman thief A. J. Raffles. Twenty-Three produces a genuine Sullivan in chapter 14, says that the surviving stock belongs to royalty, and uses it to lure Robert from the throne. The little dolphin later displays her own mastery of this secret-agent performance.</div>
+</div><div class="ug-entry" data-letter="S">
+<span class="ug-headword">Swarming</span>
+<div class="ug-context">The Boat People’s mode of mass deployment: arriving simultaneously at every port in coordinated waves. Controlled by the throne activators in Domdaniel (“Turn swarm on,” “Turn swarm off”). Robert pushes “Turn Swarm Off” during the palace revolution. The term likens the Boat People to swarming bees or locusts.</div>
+</div><div class="ug-entry" data-letter="T">
+<span class="ug-headword">“Terror in the Deep”</span> <span class="ug-lang">composition</span>
+<div class="ug-context">A piece Oscar Judgement whistles while leading the escape through Domdaniel’s underwater defenses. Despite its title, his rendition is “almost merry” (chapter 7).</div>
+</div><div class="ug-entry" data-letter="T">
+<span class="ug-headword">Throne activators</span>
+<div class="ug-context">Buttons and inscriptions on the throne of Domdaniel control swarming, plague, and other world-shaping events. Some inscriptions are set in jewels, and others are in Carmody’s fine handwriting. Robert presses “Turn Swarm Off” and “Turn Plague Off” during the revolution.</div>
+</div><div class="ug-entry" data-letter="T">
+<span class="ug-headword">Throne birds</span>
+<div class="ug-context">Margret’s disparaging name for the land rulers whom Carmody used to hypnotize and advise: presidents, prime ministers, premiers, commissars, and kings (chapter 6).</div>
+</div><div class="ug-entry" data-letter="T">
+<span class="ug-headword">“Through the Sky, My Hearties”</span> <span class="ug-lang">song</span>
+<div class="ug-context">The old ballooners’ song sung and whistled by the escape party as they climb toward the ocean’s surface. Its full title is “Through the Sky, My Hearties, Through the Sky We’ll Climb” (chapter 7).</div>
+</div><div class="ug-entry" data-letter="T">
+<span class="ug-headword">Tyrrhenian</span>
+<div class="ug-context">A name associated historically with the Etruscans and used in the novel for related oceanic peoples and fish. Twenty-Three distinguishes Tyrrhenian Fish from Tyrrhenian Men while claiming common descent from Carmody. The term occurs in many of his imperial titles.</div>
+</div><div class="ug-entry" data-letter="U">
+<span class="ug-headword">Unfathomable Secret Look</span>
+<div class="ug-context">The signature facial expression of a secret agent. “She did the Secret Agent look, sometimes called the ‘Unfathomable Secret Look’ excellently.” The little dolphin masters it; Robert performs it routinely. The look belongs to the novel’s running treatment of espionage as performance.</div>
+</div><div class="ug-entry" data-letter="W">
+<span class="ug-headword">Water-walking</span>
+<div class="ug-context">A skill practiced by some Boat People “who are required to serve a term of duty as water-walkers and wise men who know all the languages.” They do it “wherever we believe the people are simple-minded and would be impressed by it.” The water near port is “worse than walking on plowed ground. It’s worse than walking through a jungle.”</div>
+</div><div class="ug-entry" data-letter="W">
+<span class="ug-headword">Wheecreoclessese</span>
+<div class="ug-context">The name Robert uses among the Spirits of the Deep and the inhabitants of Domdaniel. He describes it as “spoken with rather a whistling tone” (chapter 3).</div>
+</div><div class="ug-entry" data-letter="W">
+<span class="ug-headword">“When the Sea Gives Up Its Dead”</span> <span class="ug-lang">composition</span>
+<div class="ug-context">A piece Oscar Judgement whistles underwater, with extra harmonics from the throat-gills. Its title recalls Revelation 20:13 (chapter 7).</div>
+</div><div class="ug-entry" data-letter="W">
+<span class="ug-headword">Whistle-activated typewriter</span>
+<div class="ug-context">Robert Dolphin’s writing instrument: “This machine will type as fast as I can talk, and it does not make mistakes. I do not have to touch the machine, only talk-whistle at it. It works underwater too.” Robert composes <em>Phooo</em> on it, and the final lines identify his completed memoirs with the novel.</div>
+</div><div class="ug-entry" data-letter="W">
+<span class="ug-headword">Wildest Rumors of the Morning</span>
+<div class="ug-context">A ranking reported by Siemens in chapter 8. Fifth place belongs to the rumor that Boat People Disease will kill ninety percent of humanity unless an antidote is found by sundown. More than 130,000 almost identical calls have reached rumor central.</div>
+</div></div>
+</section>
+</main>
+</div><!-- .main-layout -->
+</div><!-- .app-container -->
+<!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════ -->
+<script>
+(function() {
+    'use strict';
+
+    const normalizeSearch = value => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[‘’]/g, "'").replace(/[“”]/g, '"').toLowerCase().trim();
+
+    const searchableText = element => {
+        const copy = element.cloneNode(true);
+        copy.querySelectorAll('.glossary-popup').forEach(popup => popup.remove());
+        return normalizeSearch(copy.textContent);
+    };
+
+    // ── Sidebar navigation ──────────────────────────
+    const navSections = document.querySelectorAll('.nav-section');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    function showSection(sectionId) {
+        contentSections.forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-section-title').forEach(t => t.classList.remove('active'));
+        const target = document.getElementById(sectionId);
+        if (target) {
+            target.classList.add('active');
+            target.scrollTop = 0;
+            window.scrollTo(0, 0);
+        }
+        const navItem = document.querySelector(`[data-section="${sectionId}"] .nav-section-title`);
+        if (navItem) navItem.classList.add('active');
+        // Close mobile sidebar
+        document.querySelector('.sidebar').classList.remove('open');
+        document.querySelector('.menu-toggle').setAttribute('aria-expanded', 'false');
+    }
+
+    navSections.forEach(section => {
+        const title = section.querySelector('.nav-section-title');
+        const sectionId = section.dataset.section;
+
+        title.addEventListener('click', () => {
+            if (section.classList.contains('has-subsections')) {
+                section.classList.toggle('expanded');
+            }
+            if (sectionId) showSection(sectionId);
+        });
+    });
+
+    // Subsection clicks scroll to chapter
+    document.querySelectorAll('.nav-subsection').forEach(sub => {
+        sub.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const parent = sub.closest('.nav-section');
+            showSection(parent.dataset.section);
+            setTimeout(() => {
+                const card = document.getElementById(sub.dataset.subsection);
+                if (card) {
+                    card.classList.add('expanded');
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        });
+    });
+
+    // ── Chapter card expand/collapse ────────────────
+    document.querySelectorAll('.chapter-header').forEach(header => {
+        header.addEventListener('click', () => {
+            header.closest('.chapter-card').classList.toggle('expanded');
+        });
+    });
+
+    document.querySelectorAll('.nav-section-title, .nav-subsection, .chapter-header').forEach(control => {
+        control.setAttribute('role', 'button');
+        control.setAttribute('tabindex', '0');
+        control.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                control.click();
+            }
+        });
+    });
+
+    // ── Character filter ────────────────────────────
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            document.querySelectorAll('.char-card').forEach(card => {
+                if (filter === 'all' || card.dataset.faction === filter) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    // ── Glossary alpha nav ──────────────────────────
+    const entries = document.querySelectorAll('.ug-entry');
+    const letters = new Set();
+    entries.forEach(e => letters.add(e.dataset.letter));
+
+    const alphaNav = document.getElementById('alphaNav');
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(l => {
+        const btn = document.createElement('button');
+        btn.className = 'alpha-btn' + (letters.has(l) ? '' : ' disabled');
+        btn.textContent = l;
+        btn.disabled = !letters.has(l);
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelector('.glossary-search').value = '';
+            entries.forEach(e => {
+                e.classList.toggle('hidden', e.dataset.letter !== l);
+            });
+        });
+        alphaNav.appendChild(btn);
+    });
+
+    // Show all button
+    const allBtn = document.createElement('button');
+    allBtn.className = 'alpha-btn active';
+    allBtn.textContent = '✱';
+    allBtn.title = 'Show all';
+    allBtn.addEventListener('click', () => {
+        document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+        allBtn.classList.add('active');
+        document.querySelector('.glossary-search').value = '';
+        entries.forEach(e => e.classList.remove('hidden'));
+    });
+    alphaNav.prepend(allBtn);
+
+    // ── Glossary search ─────────────────────────────
+    document.querySelector('.glossary-search').addEventListener('input', function() {
+        const q = normalizeSearch(this.value);
+        document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+        entries.forEach(e => {
+            const text = normalizeSearch(e.textContent);
+            e.classList.toggle('hidden', q.length > 0 && !text.includes(q));
+        });
+    });
+
+    // ── Global search ───────────────────────────────
+    document.querySelector('.search-input').addEventListener('input', function() {
+        const q = normalizeSearch(this.value);
+        document.querySelectorAll('.search-match').forEach(e => e.classList.remove('search-match'));
+        if (q.length < 2) return;
+        const section = Array.from(contentSections).find(item => searchableText(item).includes(q));
+        if (!section) return;
+        showSection(section.id);
+        const match = Array.from(section.querySelectorAll('p, h2, h3, h4, .chapter-title, .char-card, .ug-entry, .tl-event')).find(item => searchableText(item).includes(q));
+        if (match) {
+            const chapter = match.closest('.chapter-card');
+            if (chapter) chapter.classList.add('expanded');
+            const filteredCard = match.closest('.char-card, .ug-entry');
+            if (filteredCard) filteredCard.classList.remove('hidden');
+            match.classList.add('search-match');
+            match.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+
+    document.querySelectorAll('.glossary-term').forEach(term => {
+        const placePopup = () => {
+            const popup = term.querySelector('.glossary-popup');
+            if (!popup) return;
+            popup.style.transform = 'translateX(-50%)';
+            const bounds = popup.getBoundingClientRect();
+            const shift = bounds.left < 12 ? 12 - bounds.left : (bounds.right > window.innerWidth - 12 ? window.innerWidth - 12 - bounds.right : 0);
+            if (shift) popup.style.transform = `translateX(calc(-50% + ${shift}px))`;
+        };
+        term.addEventListener('mouseenter', placePopup);
+        term.addEventListener('focus', placePopup);
+    });
+
+    // ── Mobile menu toggle ──────────────────────────
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+        const open = document.querySelector('.sidebar').classList.toggle('open');
+        document.querySelector('.menu-toggle').setAttribute('aria-expanded', String(open));
+    });
+
+})();
+</script>
+</body>
+</html>
